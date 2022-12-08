@@ -1,0 +1,39 @@
+.menu-icon{
+    display:block;
+    
+    text-align: center;
+    width: 5rem;
+    max-width: 5rem;
+}
+
+.menu-text{
+    text-align: center;
+    display:block;
+}
+
+.submenu-option{
+    display:flex;
+    vertical-align: middle;
+}
+
+.submenu-icon{
+    display:flex;
+    vertical-align: middle;
+    text-align: center;
+    width: 5rem;
+    max-width: 5rem;
+}
+
+.submenu-text{
+    height: 65px;
+    line-height: 65px;
+    text-align: center;
+    display:flex;
+    vertical-align: middle;
+}
+
+.spam-text{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}

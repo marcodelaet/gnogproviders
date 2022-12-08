@@ -1,0 +1,83 @@
+.form-header{
+    font-size: 1.5rem;
+    font-weight: bold;
+    /*margin-bottom: 2rem;*/
+    text-shadow:  0.188rem 0.188rem 0.313rem #999;
+}
+
+label{
+    margin-top:1rem;
+}
+
+.inputs-container {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    margin: 0.938rem 0;
+    width: 100%;
+    display: block;
+}
+
+.inputs-input-required {
+    text-align: center;
+    height: 2.5rem;
+    margin-bottom: 1.25rem;
+    margin-left: 15%;
+    padding: 0 0.625rem;
+    border-radius: 0.313rem;
+    width:70%;
+    size: 100%;
+    border: none;
+    background-color: #beb6df;
+    color: #333;
+    font-size: 1rem;
+    box-shadow: 0.188rem 0.188rem 0.313rem #999;
+}
+
+.inputs-input-password {
+    text-align: center;
+    height: 2.5rem;
+    margin-top: 1.25rem !important;
+    margin-bottom: 1.25rem;
+    margin-left: 15%;
+    padding: 0 0.625rem;
+    border-radius: 0.313rem;
+    width:70%;
+    size: 100%;
+    border: none;
+    background-color: #beb6df;
+    color: #333;
+    font-size: 1rem;
+    box-shadow: 0.188rem 0.188rem 0.313rem #999;
+}
+
+.inputs-input {
+    text-align: center;
+    height: 2.5rem;
+    margin-bottom: 1.25rem !important;
+    margin-left: 15%;
+    padding: 0 0.625rem;
+    border-radius: 0.313rem;
+    width:70%;
+    size: 100% !important;
+    border: none;
+    background-color: #F3F3F3;
+    color: #333;
+    font-size: 1rem;
+    box-shadow: 0.188rem 0.188rem 0.313rem #999;
+}
+
+.inputs-button-container {
+    margin-top: 1.25rem !important;
+    width: 70%;
+    margin-left: 15%;
+    
+}
+
+.button-with-title{
+    text-align: center;
+}
+
+.bold{
+    font-weight: bold;
+}

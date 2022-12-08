@@ -1,0 +1,116 @@
+.list-provider-container {
+    max-width: 90%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #707070;
+    padding: 1.875rem;
+    border-radius: 1.25rem;
+    box-shadow: 0.375rem 0.375rem 0.375rem #999; 
+}
+
+.form-provider-container {
+    max-width: 80%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #707070;
+    padding: 1.875rem;
+    border-radius: 1.25rem;
+    box-shadow: 0.375rem 0.375rem 0.375rem #999; 
+}
+
+.main-contact-section {
+    max-width: 100%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #b6b6b6;
+    padding: 1.875rem;
+    border-radius: 0.5rem;
+    /*box-shadow: 0.375rem 0.375rem 0.375rem #999; */
+}
+
+.main-contact-header{
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom:1rem;
+}
+
+.product-section {
+    max-width: 100%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #b6b6b6;
+    padding: 1.875rem;
+    border-radius: 0.5rem;
+    /*box-shadow: 0.375rem 0.375rem 0.375rem #999; */
+}
+
+.product-header{
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom:1rem;
+}
+
+#card-contact-fullname,#card-contact-position{
+    font-weight: bold;
+}
+
+.provider-header {
+    display:flex;
+    margin-left:3rem;
+    margin-right:3rem;
+}
+
+.provider-body {
+    margin-left:3rem;
+    margin-right:3rem;
+}
+
+.provider-data{
+    
+    vertical-align: middle;
+    
+    
+}
+
+.icon-data{
+    vertical-align: middle;
+    margin-right:1rem;
+}
+
+.provider-name{
+    text-align: center;
+    text-shadow:  0.188rem 0.188rem 0.313rem #999;
+}
+
+.provider-main {
+    margin-top: 1.6rem;
+    text-shadow:  0.188rem 0.188rem 0.313rem #999;
+}
+.provider-photo {
+    background-image: linear-gradient(to bottom right,#c9dae6,#2e5875);
+    border-color: #FFF;
+    border-width: 0.18rem;
+    border-style: solid;
+    height:5rem;
+    margin-right: 2rem;
+    border-radius: 2.5rem;
+    box-shadow: 0.375rem 0.375rem 0.375rem #999; 
+}
+
+.provider-group {
+    display: block;
+    font-size: 0.78rem;
+    color: #647487;
+}
+
+#provider-card {
+    max-width: 30rem;
+    min-width: 30rem;
+    margin-top:2rem;
+    margin-left:25%;
+    margin-right:25%;
+}

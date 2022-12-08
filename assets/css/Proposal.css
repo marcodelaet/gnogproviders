@@ -1,0 +1,176 @@
+.list-proposal-container {
+    max-width: 90%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #707070;
+    padding: 1.875rem;
+    border-radius: 1.25rem;
+    box-shadow: 0.375rem 0.375rem 0.375rem #999; 
+}
+
+.form-proposal-container {
+    max-width: 80%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #707070;
+    padding: 1.875rem;
+    border-radius: 1.25rem;
+    box-shadow: 0.375rem 0.375rem 0.375rem #999; 
+}
+
+.list-products-container {
+  /*  margin-top: 1.8rem;   */ 
+}
+
+.list-products-row {
+    margin-top: 1.8rem;    
+}
+
+.list-billboards-row {
+    margin-top: 0.4rem;    
+}
+
+.list-billboards-container {
+    max-width: 100%;
+   /* margin-top: 0.4rem; */
+    margin-left:2rem;
+    margin-right:1rem;
+    overflow: auto;
+    font-size: 0.8rem !important;
+}
+
+.deleted-billboard{
+    text-decoration:line-through;
+    color:darkred;
+}
+
+.deleted-exception{
+    text-decoration:none !important;
+}
+
+#offer-name{
+    display:block;
+    position: inherit;
+}
+#advertiser-name{
+    display:block;
+    position: inherit;
+    font-size: 1rem !important; 
+    color:#647487;
+}
+
+.main-products-section {
+    max-width: 100%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #b6b6b6;
+    padding: 1.875rem;
+    border-radius: 0.5rem;
+    /*box-shadow: 0.375rem 0.375rem 0.375rem #999; */
+}
+
+.main-products-header{
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom:1rem;
+}
+
+.product-section {
+    max-width: 100%;
+    margin: 1.875rem auto;
+    overflow: auto;
+    min-height: 12.5rem;
+    border: 0.063rem solid #b6b6b6;
+    padding: 1.875rem;
+    border-radius: 0.5rem;
+    /*box-shadow: 0.375rem 0.375rem 0.375rem #999; */
+}
+
+.product-header{
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom:1rem;
+}
+
+#card-contact-fullname,#card-contact-position{
+    font-weight: bold;
+}
+
+.proposal-header {
+    display:flex;
+    margin-left:3rem;
+    margin-right:3rem;
+}
+
+.proposal-body {
+    margin-left:3rem;
+    margin-right:3rem;
+}
+
+.proposal-data{
+    vertical-align: middle; 
+}
+
+#statusDropdownMenuButton{
+    margin-left:55%;
+   
+}
+
+.icon-data{
+    vertical-align: middle;
+    margin-right:1rem;
+}
+
+.proposal-name{
+    text-align: center;
+    text-shadow:  0.188rem 0.188rem 0.313rem #999;
+}
+
+.proposal-main {
+    margin-top: 1.6rem;
+    text-shadow:  0.188rem 0.188rem 0.313rem #999;
+}
+
+.proposal-client {
+    display: block;
+    font-size: 0.78rem;
+    color: #647487;
+}
+
+.proposal-description {
+    display: block;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #171b20;
+}
+
+.proposal-dates {
+    display: block;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #171b20;
+}
+
+.proposal-amounts-offer {
+    display: block;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #171b20;
+}
+
+#proposal-card {
+    max-width: 30rem;
+    min-width: 30rem;
+    margin-top:2rem;
+    margin-left:25%;
+    margin-right:25%;
+}
+
+#products-list{
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #171b20;
+}

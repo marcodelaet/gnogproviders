@@ -1,0 +1,28 @@
+.recoverylink-container{
+    width: 70%;
+    margin-left: 15%;
+    text-align:right; 
+   
+}
+
+.recoverylink-link{
+    margin-right: 0.2rem;
+    color: #2774AB;
+    text-decoration: underline;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.link-to-file{
+    width:100%;
+    text-align: right;
+    margin-right: 0.2rem;
+    color: #2774AB;
+    text-decoration: underline;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer; 
+}
