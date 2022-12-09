@@ -51,20 +51,6 @@ $moduleName = 'Invoice';
                     <label for="product"><?=translateText('product')?></label>
                     <select class="custom-select"  name="product" id="product"  title="<?=translateText('product')?>" autocomplete="product">
                     <?=inputSelect('proposalxproduct',translateText('offer').' / '.translateText('product'),'provider_id---'.$_COOKIE['pid'],null,null)?>
-                    <!--<input
-                    required
-                    name ='product' 
-                    placeholder='<?=translateText('product')?>'
-                    title = '<?=translateText('product')?>'
-                    value=''
-                    class="form-control" 
-                    type="text" 
-                    maxlength="30"
-                    autocomplete="product"
-                    />
-                    <div class="invalid-feedback">
-                        Please choose a <?=translateText('product')?>.
-                    </div>-->
                     </select>
                 </div>
             </div>
@@ -84,6 +70,14 @@ $moduleName = 'Invoice';
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-invoice-label" for="inputGroupFile01"><?=translateText('choose')?> <?=translateText('invoice_file')?></label>
                         </div>
                     </div>
+                    <div class="input-group mb-3">
+                        <!--<label for="invoice_number">Numero de la factura</label>-->
+                        <input type='text' class="form-control" placeholder="Numero de la factura" name="invoice_number" id="invoice_number"  title="Numero de la factura" autocomplete="invoice_number" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <!--<label for="invoice_number">Numero de la factura</label>-->
+                        <input type='currency' class="form-control" placeholder="Monto de la factura" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" />
+                    </div>
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
@@ -92,6 +86,11 @@ $moduleName = 'Invoice';
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-po-label" for="inputGroupFile01"><?=translateText('choose')?> <?=translateText('po_file')?></label>
                         </div>
                     </div>
+                    <div class="col">
+                        <!--<label for="invoice_number">Numero de la ordem de cuempra</label>-->
+                        <input type='text' class="form-control" placeholder="Numero de la ordem de cuempra" name="po_number" id="po_number"  title="Numero de la ordem de cuempra" autocomplete="po_number" />
+                    </div>
+
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
