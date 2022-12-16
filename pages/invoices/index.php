@@ -19,16 +19,8 @@ if(1==2)
     <script src="<?=$dir?>./assets/js/rate.js" type="text/javascript"></script>
     <script src="<?=$dir?>./assets/js/goal.js" type="text/javascript"></script>
     
-    <div class="filter-container" style="margin-bottom:1rem;">        
+    <div class='<?=strtolower($moduleName)?>-container'>
         <div class="inputs-filter-container">
-            <div class="form-row">
-                <div class="input-group col-sm-11">
-                    &nbsp;
-                </div>
-                <div class="input-group col-sm-1 button-with-title" style="margin-bottom:1rem;">
-                    <a type="button" title="Upload <?=strtolower($moduleName)?>s files" class="btn btn-outline-primary my-2 my-sm-0" type="button" style="width:100%; text-align: center; vertical-align:middle;" onClick="location.href='?pr=<?=base64_encode('./pages/'.strtolower($moduleName).'s/formupload.php')?>'"><span class="material-icons-outlined">file_upload</span><div class="text-button">Upload</div></a>
-                </div>
-            </div>
             <form name='filter' method="post" enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="input-group col-sm-8">
@@ -41,27 +33,27 @@ if(1==2)
                 </div>
             </form>
         </div>
-    </div>  
-
-    <div class='<?=strtolower($moduleName)?>-container'>
         <div class="result-container">
-            <div class="row">
+            <div class="row" id="invoices-list">
                 <div class="col">
-                    Provider Private Area
+                    <span class="section-information-line">Provider Private Area</span>
                     <table class="table table-hover table-sm">
                         <caption>Offers / Files</caption>
                         <thead>
                             <tr>
-                                <th scope="col"><?=translateText('offer_campaign');?></th>
-                                <th scope="col"><?=translateText('assign_executive');?></th>
-                                <th scope="col"><?=translateText('amount');?></th>
-                                <th scope="col"><?=translateText('month');?></th>
-                                <th scope="col"><?=translateText('payed_at');?></th>
-                                <th scope="col"><?=translateText('status');?></th>
-                                <th scope="col" style="text-align:center;"><?=translateText('settings');?></th>
+                                <th class="column" scope="col"><?=translateText('offer_campaign');?></th>
+                                <th class="column" scope="col"><?=translateText('po_number');?></th>
+                                <th class="column" scope="col"><?=translateText('invoice_number');?></th>
+                                <th class="column" scope="col"><?=translateText('amount');?></th>
+                                <th class="column" scope="col"><?=translateText('invoice_created_at');?></th>
+                                <th class="column" scope="col"><?=translateText('month');?>/<?=translateText('year');?></th>
+                                <th class="column" scope="col"><?=translateText('payed_amount');?></th>
+                                <th class="column" scope="col"><?=translateText('payed_at');?></th>
+                                <th class="column" scope="col"><?=translateText('status');?></th>
+                                <th class="column" scope="col" style="text-align:center;"><?=translateText('files');?></th>
                             </tr>
                         </thead>
-                        <tbody id="listDashboard">
+                        <tbody id="listInvoices">
                             <tr>
                                 <td class="table-column-offerName">Disney</td>
                                 <td class="table-column-AssignedExecutive">...</td>
@@ -79,8 +71,6 @@ if(1==2)
     </div>
 
     <script>
-        updateRates();
-        handleListGoalOnLoad();
         handleListOnLoad();
     </script>
 <?php 

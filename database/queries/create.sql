@@ -924,7 +924,7 @@ VALUES
 (UUID(), 'search', 'Search', 'Buscar', 'Buscar', 'Y', NOW(), NOW()),
 (UUID(), 'payed_at', 'Payed at', 'Fecha de pago', 'Data de Pagamento', 'Y', NOW(), NOW());
 (UUID(), 'choose', 'Choose', 'Elejir', 'Escolha', 'Y', NOW(), NOW()),
-(UUID(), 'invoice_file', 'Invoice file', 'archivo de Facturación', 'arquivo de Fatura', 'Y', NOW(), NOW()),
+(UUID(), 'invoice_file', 'Invoice file', 'archivo de Facturas', 'arquivo de Fatura', 'Y', NOW(), NOW()),
 (UUID(), 'po_file', 'Purchase Order file', 'archivo de Orden de Compra', 'arquivo de Ordem de Compra', 'Y', NOW(), NOW()),
 (UUID(), 'report_file', 'Report file', 'archivo de Report', 'arquivo de Relatório', 'Y', NOW(), NOW()),
 (UUID(), 'presentation_file', 'Presentation file', 'archivo de Presentación', 'arquivo de Apresentação', 'Y', NOW(), NOW()),
@@ -941,7 +941,21 @@ VALUES
 (UUID(), 'product', 'Product', 'Producto', 'Produto', 'Y', NOW(), NOW()),
 (UUID(), 'any_to_select', 'Any', 'No hay', 'Nenhum', 'Y', NOW(), NOW()),
 (UUID(), 'to_select', 'enable to select', 'disponible para seleccionar', 'disponível para selecionar', 'Y', NOW(), NOW()),
-(UUID(), 'files', 'Files', 'Archivos', 'Arquivos', 'Y', NOW(), NOW());
+(UUID(), 'files', 'Files', 'Archivos', 'Arquivos', 'Y', NOW(), NOW()),
+(UUID(), 'invoices', 'Invoices', 'Facturas', 'Faturas', 'Y', NOW(), NOW()),
+(UUID(), 'invoice_number', 'Invoice Number', 'N&ordm; factura', 'N&ordm; fatura', 'Y', NOW(), NOW()),
+(UUID(), 'po_number', 'P.O. Number', 'N&ordm; Orden de Compra', 'N&ordm; P.O.', 'Y', NOW(), NOW()),
+(UUID(), 'invoice', 'Invoice', 'Factura', 'Fatura', 'Y', NOW(), NOW()),
+(UUID(), 'po', 'P.O.', 'Orden de compra', 'Ordem de compra', 'Y', NOW(), NOW()),
+(UUID(), 'report', 'Report file', 'Archivo de Report', 'Relatório', 'Y', NOW(), NOW()),
+(UUID(), 'presentation', 'Presentation', 'Presentación', 'Apresentação', 'Y', NOW(), NOW()),
+(UUID(), 'xml', 'XML file', 'Archivo XML', 'Arquivo XML', 'Y', NOW(), NOW()),
+(UUID(), 'invoice_created_at', 'Sent date', 'Fecha del ingresso', 'Data de envio', 'Y', NOW(), NOW()),
+(UUID(), 'payed_amount', 'Amount payed', 'Monto pagado', 'Total pago', 'Y', NOW(), NOW()),
+(UUID(), 'xml_file', 'XML file (Only for MEX)', 'archivo XML (Solo para MEX)', 'arquivo XML (Apenas para MEX)', 'Y', NOW(), NOW()),
+(UUID(), 'year', 'Year', 'Año', 'Ano', 'Y', NOW(), NOW());
+
+
 
 
 # FILES
@@ -962,8 +976,14 @@ updated_at DATETIME NOT NULL
 CREATE TABLE IF NOT EXISTS invoices (
 id VARCHAR(40) PRIMARY KEY NOT NULL,
 provider_id VARCHAR(40) NOT NULL,
+invoice_number VARCHAR(40) NOT NULL,
+invoice_amount_int INTEGER NOT NULL,
+invoice_amount_paid_int INTEGER,
+invoice_amount_currency VARCHAR(3),
+invoice_last_payment_date DATE,
 invoice_month VARCHAR(2) NOT NULL,
 invoice_year VARCHAR(4) NOT NULL,
+order_number VARCHAR(40),
 proposalproduct_id VARCHAR(40),
 invoice_status VARCHAR(200),
 is_active ENUM('N','Y') NOT NULL,
@@ -984,6 +1004,12 @@ ALTER TABLE files
     REFERENCES invoices (id);
 
 
+# ADDING FK CURRENCY
+ALTER TABLE invoices
+    ADD CONSTRAINT fk_currency 
+	FOREIGN KEY (invoice_amount_currency)
+    REFERENCES currencies (id);
+
 # ADDING FK PROPOSALPRODUCT
 ALTER TABLE invoices
     ADD CONSTRAINT fk_proposalproduct 
@@ -995,6 +1021,56 @@ ALTER TABLE invoices
     ADD CONSTRAINT fk_providerInvoice 
 	FOREIGN KEY (provider_id)
     REFERENCES providers (id);
+
+# VIEW INVOICES_FILES
+CREATE VIEW view_invoices_files AS (
+SELECT 
+i.id as invoice_id,
+i.provider_id as provider_id,
+pv.name as provider_name,
+i.invoice_number as invoice_number,
+i.invoice_amount_int as invoice_amount_int,
+i.invoice_amount_int / 100 as invoice_amount,
+i.invoice_amount_paid_int as invoice_amount_paid_int,
+i.invoice_amount_paid_int / 100 as invoice_amount_paid,
+i.invoice_amount_currency as invoice_amount_currency,
+i.invoice_last_payment_date as invoice_last_payment_date,
+i.invoice_month as invoice_month,
+i.invoice_year as invoice_year,
+i.order_number as order_number,
+i.proposalproduct_id as proposalproduct_id,
+i.invoice_status as invoice_status,
+i.is_active as invoice_is_active,
+i.created_at as invoice_created_at,
+i.updated_at as invoice_updated_at,
+f.id as file_id,
+f.file_location as file_location,
+f.file_name as file_name,
+f.file_type as file_type,
+f.user_id as user_id,
+u.email as user_email,
+f.description as file_description,
+f.is_active as file_is_active,
+f.created_at as file_created_at,
+f.updated_at as file_updated_at,
+pp.proposal_id as proposal_id,
+p.offer_name as offer_name,
+pp.product_id as product_id,
+pd.name as product_name,
+pp.salemodel_id as salemodel_id,
+sm.name as salemodel_name,
+CONCAT(p.offer_name,'|',pd.name,'|',sm.name,'|',file_name,'|',pv.name,'|',i.invoice_number,'|',i.order_number,'|',i.invoice_status) as search
+FROM 
+invoices i
+INNER JOIN files f ON f.invoice_id = i.id
+INNER JOIN proposalsxproducts pp ON pp.id = i.proposalproduct_id
+INNER JOIN proposals p ON p.id = pp.proposal_id
+INNER JOIN providers pv ON pv.id = i.provider_id
+INNER JOIN users u ON f.user_id = u.id
+LEFT JOIN products pd ON pd.id = pp.product_id
+LEFT JOIN salemodels sm ON sm.id = pp.salemodel_id
+ 
+);
 
 # VIEW CREATION_USER_PROVIDER
 CREATE VIEW view_full_profiles_data AS (

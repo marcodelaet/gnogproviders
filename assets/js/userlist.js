@@ -1,4 +1,4 @@
-document.getElementById('nav-item-users').setAttribute('class',document.getElementById('nav-item-users').getAttribute('class').replace(' active','') + ' active');
+//document.getElementById('nav-item-users').setAttribute('class',document.getElementById('nav-item-users').getAttribute('class').replace(' active','') + ' active');
 var csrf_token = $('meta[name="csrf-token"]').attr('content');
 module = 'user';
 function handleRemove(tid,locked_status){
@@ -25,6 +25,42 @@ function handleRemove(tid,locked_status){
     request.open('GET', requestURL);
     //request.responseType = 'json';
     request.send();
+}
+
+function getUserInformation(){
+    errors      = 0;
+    authApi     = csrf_token;
+    locat       = window.location.hostname;
+
+    var uuid    = localStorage.getItem('uuid');
+
+    filters     = '';
+    if(uuid != ''){
+        filters += "&uuid="+uuid;
+    }
+
+    if(locat.slice(-1) != '/')
+        locat += '/';
+
+    if(errors > 0){
+
+    } else{
+        tableList   = document.getElementById('listUsers');
+        const requestURL = window.location.protocol+'//'+locat+'api/'+module+'s/auth_'+module+'_get.php?auth_api='+authApi+filters;
+        console.log(requestURL);
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                obj         = JSON.parse(request.responseText);
+                document.getElementById('provider-name').innerText = obj.data[0].provider_name;
+                document.getElementById('navbarDropdownMenuLink user').setAttribute('title',obj.data[0].contact_name + ' ' + obj.data[0].contact_surname + ' ('+obj.data[0].user_email+')');
+            }
+        };
+        request.open('GET', requestURL);
+        //request.responseType = 'json';
+        request.send();
+    }
 }
 
 function handleOnLoad(search) {

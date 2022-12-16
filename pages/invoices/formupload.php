@@ -65,46 +65,84 @@ $moduleName = 'Invoice';
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?=translateText('invoice')?></span>
+                        </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-invoice" name="<?=strtolower($moduleName)?>-file-invoice" accept="" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-invoice-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-invoice">
-                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-invoice-label" for="inputGroupFile01"><?=translateText('choose')?> <?=translateText('invoice_file')?></label>
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-invoice" name="<?=strtolower($moduleName)?>-file-invoice" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-invoice-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-invoice">
+                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-invoice-label" for="<?=strtolower($moduleName)?>-file-invoice"><?=translateText('choose')?> <?=translateText('invoice_file')?></label>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?=translateText('xml')?></span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-xml" name="<?=strtolower($moduleName)?>-file-xml" accept=".xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-xml-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-xml">
+                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-xml-label" for="<?=strtolower($moduleName)?>-file-xml"><?=translateText('choose')?> <?=translateText('xml_file')?></label>
                         </div>
                     </div>
+                </div>  
+                <div class="inputs-form-container">
                     <div class="input-group mb-3">
-                        <!--<label for="invoice_number">Numero de la factura</label>-->
-                        <input type='text' class="form-control" placeholder="Numero de la factura" name="invoice_number" id="invoice_number"  title="Numero de la factura" autocomplete="invoice_number" />
-                    </div>
-                    <div class="input-group mb-3">
-                        <!--<label for="invoice_number">Numero de la factura</label>-->
+                        <div class="col-2">
+                            <select
+                            required
+                            name ='currency' 
+                            title = '<?=translateText('currency');?>'
+                            class="form-control"
+                            autocomplete="currency"
+                            onchange="if(this.value=='BRL'){document.getElementById('currency-symbol').innerText='R$';} else {document.getElementById('currency-symbol').innerText='$';}">
+                                <option value="MXN">MXN</option>
+                                <option value="USD">USD</option>
+                                <option value="BRL">BRL</option>
+                            </select>
+                        </div>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="currency-symbol">$</span>
+                            <span class="input-group-text">0.00</span>
+                        </div>
                         <input type='currency' class="form-control" placeholder="Monto de la factura" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" />
+
+                        <div class="col-4">
+                            <!--<label for="invoice_number">Numero de la factura</label>-->
+                            <input type='text' class="form-control" placeholder="<?=translateText('invoice_number')?>" name="invoice_number" id="invoice_number"  title="Numero de la factura" autocomplete="invoice_number" />
+                        </div>
                     </div>
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-po" name="<?=strtolower($moduleName)?>-file-po" accept="" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-po-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-po">
-                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-po-label" for="inputGroupFile01"><?=translateText('choose')?> <?=translateText('po_file')?></label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?=translateText('po')?></span>
                         </div>
-                    </div>
-                    <div class="col">
+                        <div class="col">                            
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-po" name="<?=strtolower($moduleName)?>-file-po" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-po-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-po">
+                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-po-label" for="<?=strtolower($moduleName)?>-file-po"><?=translateText('choose')?> <?=translateText('po_file')?></label>
+                        </div>
+                        <div class="col-4">
                         <!--<label for="invoice_number">Numero de la ordem de cuempra</label>-->
-                        <input type='text' class="form-control" placeholder="Numero de la ordem de cuempra" name="po_number" id="po_number"  title="Numero de la ordem de cuempra" autocomplete="po_number" />
+                        <input type='text' class="form-control" placeholder="<?=translateText('po_number')?>" name="po_number" id="po_number"  title="Numero de la ordem de cuempra" autocomplete="po_number" />
+                    </div>
                     </div>
 
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?=translateText('report')?></span>
+                        </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-report" name="<?=strtolower($moduleName)?>-file-report" accept="" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-report-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-report">
-                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-report-label" for="inputGroupFile01"><?=translateText('choose')?> <?=translateText('report_file')?></label>
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-report" name="<?=strtolower($moduleName)?>-file-report" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-report-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-report">
+                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-report-label" for="<?=strtolower($moduleName)?>-file-report"><?=translateText('choose')?> <?=translateText('report_file')?></label>
                         </div>
                     </div>
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?=translateText('presentation')?></span>
+                        </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-presentation" name="<?=strtolower($moduleName)?>-file-presentation" accept="" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-presentation-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-presentation">
-                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-presentation-label" for="inputGroupFile01"><?=translateText('choose')?> <?=translateText('presentation_file')?></label>
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-presentation" name="<?=strtolower($moduleName)?>-file-presentation" accept=".doc,.docx,.xls,.xlsx,.pdf,.ppt,.pptx" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-presentation-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-presentation">
+                            <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-presentation-label" for="<?=strtolower($moduleName)?>-file-presentation"><?=translateText('choose')?> <?=translateText('presentation_file')?></label>
                         </div>
                     </div>
                 </div>

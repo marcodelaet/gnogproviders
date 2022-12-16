@@ -19,10 +19,28 @@
     float: right;
     text-align:right;
 }
+
+.section-information-line{
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.table{
+    margin-top: 1rem !important;
+}
+
+.column {
+    white-space: nowrap;
+}
 #last-update-date{
     float: right;
     text-align:right;
     color: #707070;
+}
+
+#invoices-list {
+    overflow: auto;
+    white-space: nowrap;
 }
 @media screen and (min-width : 1895px) {
     .invoice-container {
