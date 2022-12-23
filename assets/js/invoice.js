@@ -61,6 +61,7 @@ function handleSubmitFiles(form){
     file2           = document.getElementById('invoice-file-po');
     file3           = document.getElementById('invoice-file-report');
     file4           = document.getElementById('invoice-file-presentation');
+    file5           = document.getElementById('invoice-file-xml');
     product_id      = document.getElementById('product');
     btnSave         = form.btnSave;
     btnText         = btnSave.innerText;
@@ -76,7 +77,7 @@ function handleSubmitFiles(form){
             locat       = window.location.hostname;
             if(locat.slice(-1) != '/')
                 locat += '/';
-
+ 
             if(errors > 0){
 
             } else{
@@ -97,6 +98,10 @@ function handleSubmitFiles(form){
                             alert(obj.message);
                     }
                     else{
+                        if(this.status == 500){
+                            //const myWindow = ;
+                            window.open(document.write(request.responseText));
+                        }
                         btnSave.innerText = "Uploading...";
                     }
                 };
@@ -322,8 +327,14 @@ function handleListOnLoad(search) {
     authApi     = csrf_token;
     locat       = window.location.hostname;
 
-    groupby     = '&groupby=UUID';
-    addColumn   = '&addcolumn=count(contact_provider_id) as qty_contact';
+    addColumn   = '';
+    groupby     = '';
+
+    uuid        = localStorage.getItem('uuid');
+    //groupby     = '&groupby=invoice_id';
+    //addColumn   = '&addcolumn=count(contact_provider_id) as qty_contact';
+
+
 
     filters     = '';
     if(typeof search == 'undefined')
@@ -338,77 +349,82 @@ function handleListOnLoad(search) {
     if(errors > 0){
 
     } else{
-        tableList   = document.getElementById('listProviders');
-        const requestURL = window.location.protocol+'//'+locat+'api/providers/auth_provider_view.php?auth_api='+authApi+filters+groupby+addColumn;
+        tableList   = document.getElementById('listInvoices');
+        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+'&uid='+uuid+filters+groupby+addColumn;
         console.log(requestURL);
         const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             //console.log(this.readyState + '/n' + this.status);
             if (this.readyState == 4 && this.status == 200) {
                 // Typical action to be performed when the document is ready:
+                //console.log(request.responseText);
                 obj         = JSON.parse(request.responseText);
-                html        = '';
-                country     = '';
-                console.log(obj);
-                for(var i=0;i < obj['data'].length; i++){
-                    
-                    color_status = '#d60b0e';
-                    if(obj['data'][i].is_active == 'Y')
-                        color_status = '#298c3d';
+                if(obj.rows > 0){
+                    html        = '';
+                    invoice_id  = '';
+                    countingstars = 0; // counting files
 
-                    switch (obj['data'][i].phone_international_code) {
-                        case '52':
-                            country = 'MEX';
-                            break;
-                        case '55':
-                            country = 'BRA';
-                            break;
-                        case '1':
-                            country = 'USA';
-                            break;
-                        default:
-                            country = 'XXX';
+                    for(var i=0;i < obj.data.length; i++){
+                        
+                        // Create our number formatter.
+                        var formatter = new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: obj.data[0].invoice_amount_currency,
+                            //maximumSignificantDigits: 2,
+
+                            // These options are needed to round to whole numbers if that's what you want.
+                            minimumFractionDigits: 2, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                            //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+                        });
+                        amount_paid = formatter.format(obj.data[i].invoice_amount_paid);
+                        if((obj.data[i].invoice_amount_paid_int == '') || (obj.data[i].invoice_amount_paid_int == 0) || (obj.data[i].invoice_amount_paid_int == 'null') ){
+                            amount_paid = formatter.format(0);
+                        }
+                        last_payment_date = obj.data[i].invoice_last_payment_date;
+                        if((last_payment_date == '') || (last_payment_date == 0) || (last_payment_date == 'null') || (last_payment_date == null) ){
+                            last_payment_date = '';
+                        }
+                        invoice_status = translateText(obj.data[i].invoice_status,localStorage.getItem('ulang'));
+                        
+
+                        if(invoice_id != obj.data[i].invoice_id){
+                            html += '<tr><td nowrap>'+obj.data[i].offer_name+'</td>';
+                            html += '<td style="text-align:center" nowrap>'+obj.data[i].order_number+'</td>';
+                            html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_number+'</td>';
+                            html += '<td style="text-align:right" nowrap>'+formatter.format(obj.data[i].invoice_amount)+'</td>';
+                            html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_updated_at+'</td>';
+                            html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_month+'/'+obj.data[i].invoice_year+'</td>';
+                            html += '<td style="text-align:right" nowrap>'+amount_paid+'</td>';
+                            html += '<td nowrap>'+last_payment_date+'</td>';
+                            html += '<td style="text-align:center" nowrap>'+invoice_status+'</td>';
+                            html += '<td nowrap style="text-align:center;">';
+                        }
+                        // FILES
+                        // adding files icons / links
+                        html += '<a href="'+obj.data[i].file_location+obj.data[i].file_name+'" target="_blank"><span class="material-icons" style="font-size:1.5rem; color:black;" title="'+obj.data[i].file_name+'">download</span></a>';
+
+                        if(invoice_id != obj.data[i].invoice_id){
+                            if(countingstars > 0)
+                                html += '</td></tr>';
+                            // setting new invoice id
+                            invoice_id = obj.data[i].invoice_id;
+                            countingstars = 0; // reseting counting files
+                        } else {
+                            countingstars++;
+                        }
                     }
-                    phone_number    = "";
-                    contact         = "-------";
-                   //alert(typeof(obj['data'][i].contact));
-                   phone_number = "--------"
-                    if((obj['data'][i].contact !== 'null') && (obj['data'][i].contact !== null)){
-                        phone_number    = obj['data'][i].phone;
-                        contact         = obj['data'][i].contact;
-                        if((obj['data'][i].phone_prefix!='') && (obj['data'][i].phone_prefix !== 'null') && (obj['data'][i].phone_prefix !== null))
-                            phone_number = '+'+obj['data'][i].phone_international_code+obj['data'][i].phone_prefix+obj['data'][i].phone_number.replace(" ","");
-
-                        if((obj['data'][i].phone_prefix == 'null') || (obj['data'][i].phone_prefix == null))
-                            phone_number = '+'+obj['data'][i].phone_international_code+obj['data'][i].phone_number.replace(" ","");
+                } else {
+                    if(search !== ''){
+                        alert('la busqueda no hay retornado resultos para: ' + search);
+                        html = '<tr><td colspan="10" style="text-align:center;">0 resultos para <b>'+search+'</b></td></tr>';
+                    } else {
+                        html = '<tr><td colspan="10" style="text-align:center;">0 resultos</td></tr>';
                     }
-                    webpage = '-------';
-                    if( (obj['data'][i].webpage_url !== 'null') && (obj['data'][i].webpage_url !== null))
-                        webpage = obj['data'][i].webpage_url;
-                    string_qty_contact = "No contacts";
-                    if(obj['data'][i].qty_contact > 0)
-                        string_qty_contact = obj['data'][i].qty_contact + ' contact';
-                    if(obj['data'][i].qty_contact > 1)
-                        string_qty_contact += 's';
-                    html += '<tr><td>'+obj['data'][i].name+'</td><td>'+webpage+'</td><td nowrap>'+string_qty_contact+'</td><td style="text-align:center;"><span id="locked_status_'+obj['data'][i].uuid_full+'" class="material-icons" style="color:'+color_status+'">circle</span></td><td nowrap style="text-align:center;">';
-                    // information card
-                    html += '<a href="?pr=Li9wYWdlcy9wcm92aWRlcnMvaW5mby5waHA=&tid='+obj['data'][i].uuid_full+'"><span class="material-icons" style="font-size:1.5rem; color:black;" title="Information Card '+obj['data'][i].name+'">info</span></a>';
-
-                    // Edit form
-                    html += '<a href="?pr=Li9wYWdlcy9wcm92aWRlcnMvZm9ybWVkaXQucGhw&tid='+obj['data'][i].uuid_full+'"><span class="material-icons" style="font-size:1.5rem; color:black;" title="Edit '+module + ' '+obj['data'][i].name+'">edit</span></a>';
-
-                    // Remove 
-                    html += '<a href="javascript:void(0)" onclick="handleRemove(\''+obj['data'][i].uuid_full+'\',\''+obj['data'][i].is_active+'\')"><span class="material-icons" style="font-size:1.5rem; color:black;" title="Remove '+module + ' '+obj['data'][i].name+'">delete</span></a>';
-
-                    // Add Contact
-                    html += '<a href="?pr=Li9wYWdlcy9hZHZlcnRpc2Vycy9jb250YWN0cy9mb3JtLnBocA==&md=Provider&tid='+obj['data'][i].uuid_full+'"><span class="material-icons" style="font-size:1.5rem; color:black;" title="Add a contact to '+module + ' '+obj['data'][i].name+'">contact_mail</span></a>';
-
-                    html += '</td></tr>';
-                }
+                } 
                 tableList.innerHTML = html;
             }
             else{
-                html = '<tr><td colspan="5"><div style="margin-left:45%; margin-right:45%;" class="spinner-border" style="text-align:center;" role="status">';
+                html = '<tr><td colspan="10"><div style="margin-left:45%; margin-right:45%;" class="spinner-border" style="text-align:center;" role="status">';
                 html += '<span class="sr-only">Loading...</span>';
                 html += '</div></td></tr>';
                 tableList.innerHTML = html;

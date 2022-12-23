@@ -19,7 +19,7 @@ if(array_key_exists('auth_api',$_REQUEST)){
     $viewOrTable = 'view_full_profiles_data';
 
     // Columns
-    $columns = 'left(user_id,13) as user_id, user_id as user_id_full, username, contact_email, user_email, user_international_code, user_mobile_number, contact_international_code, contact_phone_number, user_locked_status, contact_module_name, user_type, user_language, user_level_account, provider_name, advertiser_name, contact_position, contact_name, contact_surname, provider_id, advertiser_id';
+    $columns = 'left(user_id,13) as user_id, user_id as user_id_full, username, contact_email, user_email, user_international_code, user_mobile_number, contact_international_code, contact_phone_number, user_locked_status, contact_module_name, user_type, user_language, user_level_account, provider_name, advertiser_name, contact_position, contact_name, contact_surname, provider_id, provider_name, advertiser_id';
 
     // filters
     $uuid                   = '';
@@ -32,6 +32,25 @@ if(array_key_exists('auth_api',$_REQUEST)){
                 $filters .= " AND ";
             $uuid         = $_REQUEST['cpid'];
             $filters        .= " contact_id = '$uuid' AND contact_module_name = 'provider'";
+        }
+    }
+
+
+    if(array_key_exists('pid',$_REQUEST)){
+        if($_REQUEST['pid']!==''){
+            if($filters != '')
+                $filters .= " AND ";
+            $uuid         = $_REQUEST['pid'];
+            $filters        .= " provider_id = '$uuid' AND contact_module_name = 'provider'";
+        }
+    }
+
+    if(array_key_exists('uuid',$_REQUEST)){
+        if($_REQUEST['uuid']!==''){
+            if($filters != '')
+                $filters .= " AND ";
+            $uuid         = $_REQUEST['uuid'];
+            $filters        .= " user_id = '$uuid' AND contact_module_name = 'provider'";
         }
     }
 

@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once __DIR__ . '/vendor/autoload.php';
+//require_once __DIR__ . '/vendor/autoload.php';
 
 if(array_key_exists('ulang',$_COOKIE)){
    $lang = $_COOKIE['ulang'];
@@ -14,12 +14,12 @@ if($lang == 'esp')
    $lang = 'es';
 
 
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', true);
+//ini_set('error_reporting', E_ALL);
+//ini_set('display_errors', true);
 
-require_once __DIR__.'/vendor/shuchkin/simplexlsx/src/SimpleXLSX.php';
+//require_once __DIR__.'/vendor/shuchkin/simplexlsx/src/SimpleXLSX.php';
 
-use Shuchkin\SimpleXLSX;
+//use Shuchkin\SimpleXLSX;
 
 require_once('./assets/conf.main.php'); 
 require_once('./assets/lib/security_area.php');
@@ -38,6 +38,9 @@ require_once('./assets/lib/translation.php');
 require('./components/menu.main.php');
 require('./components/content.main.php');
 require_once('./components/footer.main.php');
+
+//echo '?pr='.base64_encode('./pages/users/form.php').'&cpid=';
+
 ?>
       </div>
    </body>
