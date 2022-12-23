@@ -923,6 +923,11 @@ VALUES
 (UUID(), 'month', 'Month', 'Mês', 'Mês', 'Y', NOW(), NOW()),
 (UUID(), 'search', 'Search', 'Buscar', 'Buscar', 'Y', NOW(), NOW()),
 (UUID(), 'payed_at', 'Payed at', 'Fecha de pago', 'Data de Pagamento', 'Y', NOW(), NOW());
+
+
+INSERT INTO translates 
+(id, code_str, text_eng, text_esp, text_ptbr, is_active, created_at, updated_at)
+VALUES
 (UUID(), 'choose', 'Choose', 'Elejir', 'Escolha', 'Y', NOW(), NOW()),
 (UUID(), 'invoice_file', 'Invoice file', 'archivo de Facturas', 'arquivo de Fatura', 'Y', NOW(), NOW()),
 (UUID(), 'po_file', 'Purchase Order file', 'archivo de Orden de Compra', 'arquivo de Ordem de Compra', 'Y', NOW(), NOW()),

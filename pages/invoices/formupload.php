@@ -83,25 +83,25 @@ $moduleName = 'Invoice';
                 </div>  
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
-                        <div class="col-2">
-                            <select
-                            required
-                            name ='currency' 
-                            title = '<?=translateText('currency');?>'
-                            class="form-control"
-                            autocomplete="currency"
-                            onchange="if(this.value=='BRL'){document.getElementById('currency-symbol').innerText='R$';} else {document.getElementById('currency-symbol').innerText='$';}">
-                                <option value="MXN">MXN</option>
-                                <option value="USD">USD</option>
-                                <option value="BRL">BRL</option>
-                            </select>
-                        </div>
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="currency-symbol">$</span>
-                            <span class="input-group-text">0.00</span>
+                            <span class="input-group-text"><?=translateText('currency')?></span>
                         </div>
-                        <input type='currency' class="form-control" placeholder="Monto de la factura" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" />
-
+                        <select
+                        required
+                        name ='currency' 
+                        title = '<?=translateText('currency');?>'
+                        class="form-control"
+                        autocomplete="currency"
+                        onchange="if(this.value=='BRL'){document.getElementById('currency-symbol').innerText='R$';} else {document.getElementById('currency-symbol').innerText='$';}">
+                            <option value="MXN">MXN</option>
+                            <option value="USD">USD</option>
+                            <option value="BRL">BRL</option>
+                        </select> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="currency-symbol">$</span>
+                                <span class="input-group-text">0.00</span>
+                            </div>
+                            <input type='currency' class="form-control" placeholder="Monto de la factura" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" onkeypress="$(this).mask('#,###,##0.00', {reverse: true});"/>
                         <div class="col-4">
                             <!--<label for="invoice_number">Numero de la factura</label>-->
                             <input type='text' class="form-control" placeholder="<?=translateText('invoice_number')?>" name="invoice_number" id="invoice_number"  title="Numero de la factura" autocomplete="invoice_number" />
@@ -158,7 +158,7 @@ $moduleName = 'Invoice';
     </div>    
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
     // getting previous month and year to show on form
     const xdate   = new Date();
     const xmonth  = xdate.getMonth();

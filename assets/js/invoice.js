@@ -98,6 +98,10 @@ function handleSubmitFiles(form){
                             alert(obj.message);
                     }
                     else{
+                        if(this.status == 500){
+                            //const myWindow = ;
+                            window.open(document.write(request.responseText));
+                        }
                         btnSave.innerText = "Uploading...";
                     }
                 };
@@ -325,8 +329,12 @@ function handleListOnLoad(search) {
 
     addColumn   = '';
     groupby     = '';
+
+    uuid        = localStorage.getItem('uuid');
     //groupby     = '&groupby=invoice_id';
     //addColumn   = '&addcolumn=count(contact_provider_id) as qty_contact';
+
+
 
     filters     = '';
     if(typeof search == 'undefined')
@@ -342,7 +350,7 @@ function handleListOnLoad(search) {
 
     } else{
         tableList   = document.getElementById('listInvoices');
-        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+filters+groupby+addColumn;
+        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+'&uid='+uuid+filters+groupby+addColumn;
         console.log(requestURL);
         const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -376,7 +384,7 @@ function handleListOnLoad(search) {
                         if((last_payment_date == '') || (last_payment_date == 0) || (last_payment_date == 'null') || (last_payment_date == null) ){
                             last_payment_date = '';
                         }
-                        invoice_status = obj.data[i].invoice_status;
+                        invoice_status = translateText(obj.data[i].invoice_status,localStorage.getItem('ulang'));
                         
 
                         if(invoice_id != obj.data[i].invoice_id){
@@ -384,7 +392,7 @@ function handleListOnLoad(search) {
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].order_number+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_number+'</td>';
                             html += '<td style="text-align:right" nowrap>'+formatter.format(obj.data[i].invoice_amount)+'</td>';
-                            html += '<td nowrap>'+obj.data[i].invoice_updated_at+'</td>';
+                            html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_updated_at+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_month+'/'+obj.data[i].invoice_year+'</td>';
                             html += '<td style="text-align:right" nowrap>'+amount_paid+'</td>';
                             html += '<td nowrap>'+last_payment_date+'</td>';

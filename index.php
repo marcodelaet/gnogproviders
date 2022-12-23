@@ -39,7 +39,7 @@ require('./components/menu.main.php');
 require('./components/content.main.php');
 require_once('./components/footer.main.php');
 
-//echo '?pr='.base64_encode('./pages/users/form.php').'&cpid=7168da14-e67d-11ec-9551-008cfa5abdac';
+//echo '?pr='.base64_encode('./pages/users/form.php').'&cpid=';
 
 ?>
       </div>

@@ -49,7 +49,7 @@ if(1==2)
                                 <th class="column" scope="col"><?=translateText('month');?>/<?=translateText('year');?></th>
                                 <th class="column" scope="col"><?=translateText('payed_amount');?></th>
                                 <th class="column" scope="col"><?=translateText('payed_at');?></th>
-                                <th class="column" scope="col"><?=translateText('status');?></th>
+                                <th class="column" style="text-align:center;" scope="col"><?=translateText('status');?></th>
                                 <th class="column" scope="col" style="text-align:center;"><?=translateText('files');?></th>
                             </tr>
                         </thead>
@@ -74,10 +74,6 @@ if(1==2)
         handleListOnLoad();
     </script>
 <?php 
-
 #Matriz utilizada para gerar os graficos
-
-    
-
 }
 ?>

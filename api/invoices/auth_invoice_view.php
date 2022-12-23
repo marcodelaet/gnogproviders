@@ -72,6 +72,15 @@ if(array_key_exists('auth_api',$_REQUEST)){
         }
     }
     
+    if(array_key_exists('uid',$_REQUEST)){
+        if($_REQUEST['uid']!==''){
+            if($filters != '')
+                $filters .= " AND ";
+            $jocker         = $_REQUEST['uid'];
+            $filters        .= " user_id = '$jocker'";
+        }
+    }
+
     if(array_key_exists('where',$_GET)){
         if($_GET['where']!==''){
             if($filters != '')
@@ -98,7 +107,7 @@ if(array_key_exists('auth_api',$_REQUEST)){
         echo json_encode(["result" => "OK","data" => $rs, "rows" => "$rsNumRows"]);
     }
     else {
-        echo json_encode(["result" => "ERROR", "data" => "$sqlPaged"]);
+        echo json_encode(["result" => "ERROR"]);
     }
 }
 

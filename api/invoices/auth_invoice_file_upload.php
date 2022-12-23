@@ -41,7 +41,16 @@ if(array_key_exists('invoice_number',$_POST)){
 // invoice_amount_int
 $invoice_amount_int = '';
 if(array_key_exists('invoice_value',$_POST)){
+    $zeros = '00';
     $invoice_amount_int = $_POST['invoice_value'];
+    $invoice_amount_int = str_replace(",","",$invoice_amount_int);
+    $aInvoice_amount_int = explode(".",$invoice_amount_int);
+
+    if(count($aInvoice_amount_int) <= 1){
+        $invoice_amount_int .= $zeros;
+    } else {
+        $invoice_amount_int = substr($invoice_amount_int,0,(strlen($invoice_amount_int) - strlen($aInvoice_amount_int[1])-1)) . substr($aInvoice_amount_int[1] . $zeros,0,2);
+    }
 }
 
 // invoice_amount_currency
@@ -112,6 +121,8 @@ $fileSizexml            = $_FILES["invoice-file-xml"]["size"];
 
 $message = '';
 
+
+
 if ($uploadOk > 0) {
     $invoice_status = "waiting_approval"; // need to be on translate table
     
@@ -122,6 +133,8 @@ if ($uploadOk > 0) {
 
     // if 0 results, then record a new invoice data
     $update = false;
+    
+
     if($invoiceNumRows < 1){
         // RECORDING invoice data 
         $insert_invoice_data = "INSERT INTO invoices (id,provider_id,invoice_number,invoice_amount_int,invoice_amount_currency,invoice_month,invoice_year,order_number,proposalproduct_id,invoice_status,is_active,created_at,updated_at) VALUES (UUID(),'$provider_id','$invoice_number',$invoice_amount_int,'$invoice_amount_currency','$invoice_month','$invoice_year','$order_number','$proposalproduct_id','$invoice_status','Y',now(),now())";               
@@ -130,8 +143,8 @@ if ($uploadOk > 0) {
         $rs_invoice_record = $DB->executeInstruction($insert_invoice_data);
     } else {
         $update = true;
-    }
-
+    }    
+    
     // getting Invoice ID
     $rs_invoice_data    = $DB->getData($check_invoice_exist);
 
@@ -285,8 +298,7 @@ if ($uploadOk > 0) {
     else {
         $message .= "\n- $uploading file not sent";
         $return = json_encode(["status"=>"ERROR","message" => $message]);
-    }
-    
+    }  
 } else {
     $message .= 'Error';
     $return = json_encode(["status" => "error", "message" => "$message"]);
