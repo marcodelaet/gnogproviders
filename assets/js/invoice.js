@@ -231,7 +231,7 @@ function handleViewOnLoad(tid) {
             if (this.readyState == 4 && this.status == 200) {
                 obj = JSON.parse(request.responseText);
                 // Create our number formatter.
-                var formatter = new Intl.NumberFormat('pt-BR', {
+                var formatter = new Intl.NumberFormat('es-MX', {
                     style: 'currency',
                     currency: obj[0].currency,
                     //maximumSignificantDigits: 2,
