@@ -1,3 +1,7 @@
+<script>
+
+</script>
+
 <?php
 $moduleName = 'Invoice';
 ?>
@@ -76,7 +80,7 @@ $moduleName = 'Invoice';
                             <span class="input-group-text"><?=translateText('xml')?></span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-xml" name="<?=strtolower($moduleName)?>-file-xml" accept=".xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-xml-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-xml">
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-xml" name="<?=strtolower($moduleName)?>-file-xml" accept=".xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-xml-label').innerHTML = this.value.split(/[|\/\\]+/)[2]; xmlobj=xmlReader(form<?=strtolower($moduleName)?>,this.name); form<?=strtolower($moduleName)?>.currency.value=xmlobj.attributes.Moneda; form<?=strtolower($moduleName)?>.invoice_value.value=xmlobj.attributes.Total; form<?=strtolower($moduleName)?>.invoice_value.setAttribute('readonly',true); form<?=strtolower($moduleName)?>.currency.setAttribute('readonly',true); form<?=strtolower($moduleName)?>.invoice_number.value=xmlobj.attributes.Serie +'-'+xmlobj.attributes.Folio; form<?=strtolower($moduleName)?>.invoice_number.setAttribute('readonly',true);" aria-describedby="<?=strtolower($moduleName)?>-file-xml">
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-xml-label" for="<?=strtolower($moduleName)?>-file-xml"><?=translateText('choose')?> <?=translateText('xml_file')?></label>
                         </div>
                     </div>

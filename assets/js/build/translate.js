@@ -1,3 +1,13 @@
+var formatter = new Intl.NumberFormat('es-MX', {
+    style: 'currency',
+    currency: obj[0].currency,
+    //maximumSignificantDigits: 2,
+
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 2, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
 function translateText(code,toLanguage){
     errors      = 0;
     authApi     = csrf_token;
@@ -51,19 +61,18 @@ function copyStringToClipboard (str) {
  }
 
 
- function xmlReader (objFile,fieldName) {
+ function xmlReader(form,fieldName) {
     errors      = 0;
     authApi     = csrf_token;
     locat       = window.location.hostname;
 
     //querystring = '&fcn=xmlReader&dir=../.'+'&code='+code+'&lng='+toLanguage;
-    var formData = new FormData();
+    var formData = new FormData(form);
     formData.append("file_field_name",fieldName)
-    formData.append(fieldName, objFile);
 
     if(locat.slice(-1) != '/')
         locat += '/';
-
+    xresponse = 'Error';
     const requestURL = window.location.protocol+'//'+locat+'assets/lib/xmlreader.php';
     console.log(requestURL);
     const request = new XMLHttpRequest();
@@ -71,18 +80,21 @@ function copyStringToClipboard (str) {
         //console.log(this.readyState + '/n' + this.status);
         if (this.readyState == 4 && this.status == 200) {
             // Typical action to be performed when the document is ready:
-            xobj = request.responseXML;
+            xobj = JSON.parse(request.responseText);
             //if(xobj.response == 'OK'){
                 xresponse = xobj;
-                console.log(xresponse);
+                //console.log(request.responseText);
+                //console.log(xresponse.attributes.Total);
+                //console.log(xresponse.attributes.Moneda);
                 //alert(xresponse);
             //} else {
             //    xresponse = 'Error';
             //}
         }
     };
-    request.open('POST', requestURL);
+    request.open('POST', requestURL,false);
     //request.responseType = 'json';
+    //request.setRequestHeader("Content-Type", "multipart/form-data;");
     request.send(formData);
     return (xresponse);
  }
