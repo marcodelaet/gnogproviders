@@ -154,6 +154,8 @@ $moduleName = 'Invoice';
             <div class="form-row">&nbsp;
                 <input type="hidden" name="pid" value="<?=$_COOKIE['pid']?>"/>
                 <input type="hidden" name="uid" value="<?=$_COOKIE['uuid']?>"/>
+                <input type="hidden" name="authApi" />
+                <input type="hidden" name="usrTk" />
             </div>
             <div class="inputs-button-container">
                 <button class="button" name="btnSave" type="button" onClick="handleSubmitFiles(form<?=strtolower($moduleName)?>)" ><?=translateText('upload_files')?></button>
