@@ -4,26 +4,31 @@ if(array_key_exists('dir',$_REQUEST)){
     $dir = $_REQUEST['dir'];
 }
 
-//REQUIRE GLOBAL conf
-require_once($dir.'./database/.config');
+// only load dababase option if it is not SET
+if(!isset($DB)){
+    //REQUIRE GLOBAL conf
+    require_once($dir.'./database/.config');
 
-// REQUIRE conexion class
-require_once($dir.'./database/connect.database.php');
+    // REQUIRE conexion class
+    require_once($dir.'./database/connect.database.php');
+}
 
 function translateText($xcode){
     $userLanguage = $_COOKIE['ulang'];
 
     global $DATABASE_HOST, $DATABASE_USER, $DATABASE_PASSWORD, $DATABASE_NAME;
 
-    $DB = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
+    if(!isset($DB)){
+        $DBTranslate = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
 
-    // call conexion instance
-    $con = $DB->connect();
+        // call conexion instance
+        $con = $DBTranslate->connect();
+    }
 
     // Query
     $sql = "SELECT id as uuid, text_eng, text_".$userLanguage." FROM translates WHERE is_active='Y' AND code_str = '$xcode'";
 
-    $rs = $DB->getData($sql);
+    $rs = $DBTranslate->getData($sql);
     if($rs){
         $returningText = $rs[0]['text_'.$userLanguage];
         if( is_null($returningText) || ($returningText == ''))
@@ -34,7 +39,7 @@ function translateText($xcode){
     }
 
     //close connection
-    $DB->close();
+    $DBTranslate->close();
 
 }
 
@@ -43,15 +48,15 @@ function translateTextInLanguage($xcode,$language){
 
     global $DATABASE_HOST, $DATABASE_USER, $DATABASE_PASSWORD, $DATABASE_NAME;
 
-    $DB = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
+    $DBTranslate = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
 
     // call conexion instance
-    $con = $DB->connect();
+    $con = $DBTranslate->connect();
 
     // Query
     $sql = "SELECT id as uuid, text_eng, text_".$userLanguage." FROM translates WHERE is_active='Y' AND code_str = '$xcode'";
 
-    $rs = $DB->getData($sql);
+    $rs = $DBTranslate->getData($sql);
     if($rs){
         $returningText = $rs[0]['text_'.$userLanguage];
         if( is_null($returningText) || ($returningText == ''))
@@ -60,33 +65,37 @@ function translateTextInLanguage($xcode,$language){
     } else {
         $response = json_encode(["response"=>"Error","translation" => 'Error']);
     }
-    return $response;
-
     //close connection
-    $DB->close();
+    $DBTranslate->close();
+    return $response;
 }
 
-function setHistory($user_id,$module_name,$description,$user_token,$form_token){
+function setHistory($user_id,$module_name,$description,$user_token,$form_token,$resultType){
     global $DATABASE_HOST, $DATABASE_USER, $DATABASE_PASSWORD, $DATABASE_NAME;
 
-    $DB = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
+    $DBHistory = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
 
     // call conexion instance
-    $con = $DB->connect();
+    $con = $DBHistory->connect();
 
     // Query
-    $sql = "INSERT INTO loghistory (id, user_id, module_name, DESCRIPTION, user_token, form_token, created_at, updated_at) VALUES (UUID(), '$user_id', '$module_name', '$description', '$user_token', '$form_token', now(), now()"; 
+    $sql = "INSERT INTO loghistory (id, user_id, module_name, description, user_token, form_token, created_at, updated_at) VALUES (UUID(),'$user_id', '$module_name', '$description', '$user_token', '$form_token', now(), now())"; 
 
-    $rs = $DB->getData($sql);
+    $rs = $DBHistory->executeInstruction($sql);
     if($rs){
-        $response = json_encode(["response"=>"OK"]);
+        if($resultType == 'json')
+            $response = json_encode(["response"=>"OK"]);
+        if($resultType == 'text')
+            $response = "OK";
     } else {
-        $response = json_encode(["response"=>"Error"]);
+        if($resultType == 'json')
+            $response = json_encode(["response"=>"Error"]);
+        if($resultType == 'text')
+            $response = "Error: ".$sql;
     }
-    return $response;
-
     //close connection
-    $DB->close();
+    $DBHistory->close();
+    return $response;
 }
 
 if(array_key_exists('fcn',$_REQUEST)){

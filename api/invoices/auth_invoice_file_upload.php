@@ -5,10 +5,15 @@ require_once('../../database/.config');
 // REQUIRE conexion class
 require_once('../../database/connect.database.php');
 
-$DB = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
+if(!isset($DB)){
+    $DB = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
 
-// call conexion instance
-$con = $DB->connect();
+    // call conexion instance
+    $con = $DB->connect();
+}
+
+// REQUIRE utils functions
+require_once('../../assets/lib/translation.php');
 
 if(array_key_exists('uid',$_POST)){
     $user_id    = $_POST['uid'];
@@ -30,6 +35,16 @@ if(array_key_exists('pid',$_POST)){
 if(array_key_exists('product',$_POST)){
     $proposalproduct_id = $_POST['product'];
     $proposalproduct_dir= $proposalproduct_id . '/';
+}
+
+$user_token = 'AUTO';
+if(array_key_exists('usrTk',$_POST)){
+    $user_token = $_POST['usrTk'];
+}
+
+$form_token = 'AUTO';
+if(array_key_exists('authApi',$_POST)){
+    $form_token = $_POST['authApi'];
 }
 
 // invoice_number
@@ -291,7 +306,11 @@ if ($uploadOk > 0) {
         $rsxml = $DB->executeInstruction($sql_insert_xml);
 
         if($rsxml){
+            $description = "Provider sent files to invoice ($year_month)";
+            //$message = "setHistory($user_id,'invoices',$description,$user_token,$form_token,'text')";
+            setHistory($user_id,'invoices',$description,$user_token,$form_token,'text');
             $message .= "\n- $uploading file sent succesfully";
+            //$return = json_encode(["status" => "Error","message" => $message]);
             $return = json_encode(["status" => "OK","message" => $message]);
         }
     }
@@ -309,4 +328,5 @@ echo $return;
 
 //close connection
 $DB->close();
+
 ?>

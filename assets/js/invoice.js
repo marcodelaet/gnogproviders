@@ -70,6 +70,9 @@ function handleSubmitFiles(form){
             //form.submit();
             errors      = 0;
             authApi     = csrf_token;
+            document.getElementsByName('authApi')[0].value = authApi;
+            document.getElementsByName('usrTk')[0].value = localStorage.getItem('tokenGNOG');
+            
 
             var formData = new FormData(form);
             //formData.append("provider_file", fileInputElement.provider_file);
@@ -99,8 +102,9 @@ function handleSubmitFiles(form){
                     }
                     else{
                         if(this.status == 500){
+                            console.log(request.responseText);
                             //const myWindow = ;
-                            window.open(document.write(request.responseText));
+                            //window.open(document.write(request.responseText));
                         }
                         btnSave.innerText = "Uploading...";
                     }
@@ -388,7 +392,7 @@ function handleListOnLoad(search) {
                         
 
                         if(invoice_id != obj.data[i].invoice_id){
-                            html += '<tr><td nowrap>'+obj.data[i].offer_name+'</td>';
+                            html += '<tr><td nowrap>'+obj.data[i].offer_name+' / '+obj.data[i].product_name+' - '+obj.data[i].salemodel_name+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].order_number+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_number+'</td>';
                             html += '<td style="text-align:right" nowrap>'+formatter.format(obj.data[i].invoice_amount)+'</td>';
