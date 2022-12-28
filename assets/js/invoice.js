@@ -408,11 +408,11 @@ function handleListOnLoad(search) {
                         html += '<a href="'+obj.data[i].file_location+obj.data[i].file_name+'" target="_blank"><span class="material-icons" style="font-size:1.5rem; color:black;" title="'+obj.data[i].file_name+'">download</span></a>';
 
                         if(invoice_id != obj.data[i].invoice_id){
+                            countingstars = 0; // reseting counting files
                             if(countingstars > 0)
                                 html += '</td></tr>';
                             // setting new invoice id
                             invoice_id = obj.data[i].invoice_id;
-                            countingstars = 0; // reseting counting files
                         } else {
                             countingstars++;
                         }
