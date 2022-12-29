@@ -306,9 +306,11 @@ if ($uploadOk > 0) {
         $rsxml = $DB->executeInstruction($sql_insert_xml);
 
         if($rsxml){
-            $description = "Provider sent files to invoice ($year_month)";
+            $description_en     = "Provider sent files to invoice ($year_month)";
+            $description_es     = "Proveedor envió archivos de factura ($year_month)";
+            $description_ptbr   = "Provedor enviou arquivos de fatura ($year_month)";
             //$message = "setHistory($user_id,'invoices',$description,$user_token,$form_token,'text')";
-            setHistory($user_id,'invoices',$description,$user_token,$form_token,'text');
+            setHistory($user_id,'invoices',$description_en,$description_es,$description_ptbr,$user_token,$form_token,'text');
             $message .= "\n- $uploading file sent succesfully";
             //$return = json_encode(["status" => "Error","message" => $message]);
             $return = json_encode(["status" => "OK","message" => $message]);
