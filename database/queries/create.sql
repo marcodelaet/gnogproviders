@@ -960,7 +960,18 @@ VALUES
 (UUID(), 'xml_file', 'XML file (Only for MEX)', 'archivo XML (Solo para MEX)', 'arquivo XML (Apenas para MEX)', 'Y', NOW(), NOW()),
 (UUID(), 'year', 'Year', 'Año', 'Ano', 'Y', NOW(), NOW());
 
-
+INSERT INTO translates 
+(id, code_str, text_eng, text_esp, text_ptbr, is_active, created_at, updated_at)
+VALUES
+(UUID(), 'waiting_approval', 'Waiting for approval', 'A la espera de aprobación', 'Aguardando aprovação', 'Y', NOW(), NOW()),
+(UUID(), 'send_user_crt_url_to', 'Send user creation link to', 'Enviar la liga de creación del usuario para', 'Enviar link de criação de usuário para', 'Y', NOW(), NOW()),
+(UUID(), 'copy_user_crt_url', 'Copy user creation link', 'Copiar liga de creación del usuario', 'Copiar link de criação de usuário', 'Y', NOW(), NOW()),
+(UUID(), 'copied_to_clipboard', 'copied to clipboard', 'copiado al portapapeles', 'copiado para a área de transferência', 'Y', NOW(), NOW()),
+(UUID(), 'deny_files', 'deny files', 'negar archivos', 'negar arquivos', 'Y', NOW(), NOW()),
+(UUID(), 'send_message', 'Send message', 'Enviar mensaje', 'Enviar mensagem', 'Y', NOW(), NOW()),
+(UUID(), 'close', 'Close', 'Cerrar', 'Fechar', 'Y', NOW(), NOW()),
+(UUID(), 'motive', 'Motive', 'Motivo', 'Motivo', 'Y', NOW(), NOW()),
+(UUID(), 'from_invoice', 'from invoice', 'de la factura', 'da fatura', 'Y', NOW(), NOW());
 
 
 # FILES
