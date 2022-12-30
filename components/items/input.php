@@ -13,19 +13,33 @@ function inputSelect($virtualTable,$title,$where,$order,$selected){
     if($virtualTable == 'advertiser') {
         $groupby = "UUID";
     }
+    $join   = "";
+    $cjoin  = "";
     if($virtualTable == 'proposalxproduct') {
         $groupby    = "proposalproduct_id,product_id,salemodel_id";
         $table      = "proposal";
+        $join       = "view_invoices_files cjoin ON cjoin.proposalproduct_id = vp.proposalproduct_id";
+        $cjoin      = "invoice_status";
+        if($where != ""){
+            $where .= " AND ";
+        }
+        $where      .= "((cjoin.invoice_status---'waiting_approval') OR (cjoin.invoice_status---'approval_denied') OR (cjoin.invoice_status IS NULL))";
     }
+    $tail   = "";
+    if($join != "")
+        $tail .= "&join=".urlencode($join);
+    if($cjoin != "")
+        $tail .= "&cjoin=".$cjoin;
+    
     $table_plural = $table . 's';
     if(substr($table,-1,strlen($table) ) == 's')
         $table_plural = $table . 'es';    
 
-    $fullUrl .= 'api/'.$table_plural.'/auth_'.$table.'_view.php?auth_api='.$authApi.'&order='.$order.'&where='.$where.'&selected='.$selected.'&groupby='.$groupby.'&allRows=1';
+    $fullUrl .= 'api/'.$table_plural.'/auth_'.$table.'_view.php?auth_api='.$authApi.'&order='.$order.'&where='.urlencode($where).'&selected='.$selected.'&groupby='.$groupby.'&allRows=1'.$tail;
     //return $fullUrl;
     $homepage = file_get_contents($fullUrl);
     $obj = json_decode($homepage);
-    //return $obj;
+    //return $homepage;
     if(is_array($obj))
         $numberOfRows = count($obj);
     else{

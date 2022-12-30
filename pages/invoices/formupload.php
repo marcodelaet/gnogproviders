@@ -54,7 +54,7 @@ $moduleName = 'Invoice';
                 <div class="col">
                     <label for="product"><?=translateText('product')?></label>
                     <select class="custom-select"  name="product" id="product"  title="<?=translateText('product')?>" autocomplete="product">
-                    <?=inputSelect('proposalxproduct',translateText('offer').' / '.translateText('product'),'provider_id---'.$_COOKIE['pid'],null,null)?>
+                    <?=inputSelect('proposalxproduct',translateText('offer').' / '.translateText('product'),"cjoin.provider_id---'".$_COOKIE['pid']."'",null,null)?>
                     </select>
                 </div>
             </div>
