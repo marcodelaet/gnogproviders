@@ -1,6 +1,6 @@
 var formatter = new Intl.NumberFormat('es-MX', {
     style: 'currency',
-    currency: obj[0].currency,
+    currency: 'MXN',
     //maximumSignificantDigits: 2,
 
     // These options are needed to round to whole numbers if that's what you want.

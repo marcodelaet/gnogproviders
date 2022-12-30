@@ -20,9 +20,24 @@ if(array_key_exists('auth_api',$_REQUEST)){
     $group          = 'user';
 
     // setting query
-    $columns        = "uuid, UUID as uuid_full,proposalproduct_id,product_id,offer_name as name,product_name,salemodel_id,salemodel_name,provider_id,provider_name,user_id,username,client_id,client_name,agency_id,agency_name,status_id,status_name,status_percent,offer_name,description,start_date,stop_date,sum(price) as price_sum, price,currency,quantity,is_active";
-    $tableOrView    = "view_proposals";
-    $orderBy        = "order by offer_name";
+    $columns        = "vp.uuid, vp.UUID as uuid_full,vp.proposalproduct_id,vp.product_id,vp.offer_name as name,vp.product_name,vp.salemodel_id,vp.salemodel_name,vp.provider_id,vp.provider_name,vp.user_id,vp.username,vp.client_id,vp.client_name,vp.agency_id,vp.agency_name,vp.status_id,vp.status_name,vp.status_percent,vp.offer_name,vp.description,vp.start_date,vp.stop_date,sum(vp.price) as price_sum, vp.price,vp.currency,vp.quantity,vp.is_active";
+    $columnsjoin    = "";
+    $tableOrView    = "view_proposals vp";
+    $leftjoin       = "";
+    if(array_key_exists('join',$_REQUEST)){
+        $leftjoin       = urldecode($_REQUEST['join']);
+    }
+    if(array_key_exists('cjoin',$_REQUEST)){
+        $acjoin         = explode(",",$_REQUEST['cjoin']);
+        for($cj=0;$cj<count($acjoin);$cj++){
+            $columnsjoin    = ', cjoin.'.$acjoin[$cj];
+        }
+    }    
+    
+    $columns        .= $columnsjoin;
+    $tableOrView    .= ' LEFT JOIN '.$leftjoin;
+
+    $orderBy        = "order by vp.offer_name";
     $groupBy        = "";
 
     // filters
@@ -45,12 +60,19 @@ if(array_key_exists('auth_api',$_REQUEST)){
             $groupBy        = " GROUP BY " . $_REQUEST['groupby'];
         }
     }
+
+    $jkr    = "";
     if(array_key_exists('where',$_GET)){
         if($_GET['where']!==''){
             if($filters != '')
                 $filters .= " AND ";
-            $jocker         = explode("---",$_GET['where']);
-            $filters        .= " $jocker[0]='$jocker[1]'";
+
+            $jocker         = explode("---",urldecode($_GET['where']));
+            if(count($jocker)==2){
+                $filters    .= " vp.$jocker[0]='$jocker[1]'";
+            } else {
+                $filters    .= str_replace('---','=',urldecode($_GET['where']));
+            }            
         }
     }
     
