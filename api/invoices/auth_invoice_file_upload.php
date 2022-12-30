@@ -412,13 +412,14 @@ if ($uploadOk > 0) {
             
             // updating file information on database
             $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
+            $return = json_encode(["status" => "OK","message" => $message]);
         }
     }
     else {
         /**************************************
          *  NOT REQUIRED
          ************************************ */
-        //$message .= "\n- $uploading file not sent";
+        $message .= "\n- $uploading file not sent";
        // $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
     // setting history log

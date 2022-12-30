@@ -396,10 +396,10 @@ function handleListOnLoad(search) {
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].order_number+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_number+'</td>';
                             html += '<td style="text-align:right" nowrap>'+formatter.format(obj.data[i].invoice_amount)+'</td>';
-                            html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_updated_at+'</td>';
-                            html += '<td style="text-align:center" nowrap>'+obj.data[i].invoice_month+'/'+obj.data[i].invoice_year+'</td>';
+                            html += '<td class="dates" nowrap>'+obj.data[i].invoice_updated_at+'</td>';
+                            html += '<td class="dates" nowrap>'+obj.data[i].invoice_month+'/'+obj.data[i].invoice_year+'</td>';
                             html += '<td style="text-align:right" nowrap>'+amount_paid+'</td>';
-                            html += '<td nowrap>'+last_payment_date+'</td>';
+                            html += '<td class="dates" nowrap>'+last_payment_date+'</td>';
                             html += '<td style="text-align:center" nowrap>'+invoice_status+'</td>';
                             html += '<td nowrap style="text-align:center;">';
                         }

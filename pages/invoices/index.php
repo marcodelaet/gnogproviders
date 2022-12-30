@@ -39,16 +39,16 @@ if(1==2)
                     <span class="section-information-line">Provider Private Area</span>
                     <table class="table table-hover table-sm">
                         <caption>Offers / Files</caption>
-                        <thead>
+                        <thead >
                             <tr>
                                 <th class="column" scope="col"><?=translateText('offer_campaign');?></th>
                                 <th class="column" scope="col"><?=translateText('po_number');?></th>
                                 <th class="column" scope="col"><?=translateText('invoice_number');?></th>
                                 <th class="column" scope="col"><?=translateText('amount');?></th>
-                                <th class="column" scope="col"><?=translateText('invoice_created_at');?></th>
+                                <th class="column dates" scope="col"><?=translateText('invoice_created_at');?><br/>(<?=translateText('yyyy/mm/dd');?>)</th>
                                 <th class="column" scope="col"><?=translateText('month');?>/<?=translateText('year');?></th>
                                 <th class="column" scope="col"><?=translateText('payed_amount');?></th>
-                                <th class="column" scope="col"><?=translateText('payed_at');?></th>
+                                <th class="column dates" scope="col"><?=translateText('payed_at');?><br/>(<?=translateText('yyyy/mm/dd');?>)</th>
                                 <th class="column" style="text-align:center;" scope="col"><?=translateText('status');?></th>
                                 <th class="column" scope="col" style="text-align:center;"><?=translateText('files');?></th>
                             </tr>

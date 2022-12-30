@@ -982,7 +982,7 @@ VALUES
 (UUID(), 'parcial_paid', 'parcial paid', 'pagada parcial', 'paga parcialmente', 'Y', NOW(), NOW()),
 (UUID(), 'invoice_approved', 'Invoice approved', 'factura aprobada', 'fatura aprovada', 'Y', NOW(), NOW()),
 (UUID(), 'invoice_amount', 'invoice amount', 'monto de la factura', 'valor da fatura', 'Y', NOW(), NOW()),
-(UUID(), 'approval_denied', 'approval denied', 'aprobación negada', 'aprovação negada', 'Y', NOW(), NOW()),
+(UUID(), 'approval_denied', 'denied', 'rechazada', 'reprovada', 'Y', NOW(), NOW()),
 (UUID(), 'no_id_information', 'no ID information', 'no hay información del ID', 'sem informação de ID', 'Y', NOW(), NOW()),
 (UUID(), 'no_user_information', 'no user information', 'no hay información del usuario', 'sem informação de usuário', 'Y', NOW(), NOW()),
 (UUID(), 'no_token_information', 'no token information', 'no hay información de la clave del usuario', 'sem informação de token de usuário', 'Y', NOW(), NOW()),
@@ -991,7 +991,14 @@ VALUES
 (UUID(), 'no_motive_information', 'motive must be a string with more than 20 characters', 'el motivo hay de tener 20 caracteres o más', 'motivo precisa ter 20 caracteres ou mais', 'Y', NOW(), NOW()),
 (UUID(), 'no_currency_information', 'no currency information', 'no hay información de la moneda', 'sem informação de moeda', 'Y', NOW(), NOW()),
 (UUID(), 'no_paidamount_information', 'no paid amount information', 'no hay información del monto pagado', 'sem informação do valor pago', 'Y', NOW(), NOW()),
-(UUID(), 'no_paymentdate_information', 'no payment date information', 'no hay información de la fecha de pago', 'sem informação da data de pagamento', 'Y', NOW(), NOW()),
+(UUID(), 'no_paymentdate_information', 'no payment date information', 'no hay información de la fecha de pago', 'sem informação da data de pagamento', 'Y', NOW(), NOW());
+
+
+
+INSERT INTO translates 
+(id, code_str, text_eng, text_esp, text_ptbr, is_active, created_at, updated_at)
+VALUES
+(UUID(), 'offer_period', 'Offer period', 'Periodo de la campaña', 'Período da campanha', 'Y', NOW(), NOW());
 
 
 

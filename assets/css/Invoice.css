@@ -31,7 +31,14 @@
 
 .column {
     white-space: nowrap;
+    vertical-align: middle !important;
 }
+
+.dates {
+    text-align:center;
+    
+}
+
 #last-update-date{
     float: right;
     text-align:right;

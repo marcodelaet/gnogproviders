@@ -16,23 +16,28 @@ $moduleName = 'Invoice';
         <div class="form-header"><?=translateText('upload')?></div>
         <form name='form<?=strtolower($moduleName)?>' method="post" enctype="multipart/form-data" class="needs-validation" action="http://gnogcrm.local/api/providers/auth_provider_csv_upload.php" novalidate>
             <div class="form-row">
-                <div class="input-group col-sm-7">
+                <div class="input-group col-sm-6">
                 </div>
-                <div class="input-group col-sm-3">
-                    <select class="custom-select" name="month" id="month" title="Month" autocomplete="month" >
-                        <option value="1"><?=translateText('january');?></option>
-                        <option value="2"><?=translateText('february');?></option>
-                        <option value="3"><?=translateText('march');?></option>
-                        <option value="4"><?=translateText('april');?></option>
-                        <option value="5"><?=translateText('may');?></option>
-                        <option value="6"><?=translateText('june');?></option>
-                        <option value="7"><?=translateText('july');?></option>
-                        <option value="8"><?=translateText('august');?></option>
-                        <option value="9"><?=translateText('september');?></option>
-                        <option value="10"><?=translateText('octuber');?></option>
-                        <option value="11"><?=translateText('november');?></option>
-                        <option value="12"><?=translateText('december');?></option> 
-                    </select>
+                <div class="input-group col-sm-4">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?=translateText('offer_period')?></span>
+                        </div>
+                        <select class="custom-select" name="month" id="month" title="Month" autocomplete="month" >
+                            <option value="1"><?=translateText('january');?></option>
+                            <option value="2"><?=translateText('february');?></option>
+                            <option value="3"><?=translateText('march');?></option>
+                            <option value="4"><?=translateText('april');?></option>
+                            <option value="5"><?=translateText('may');?></option>
+                            <option value="6"><?=translateText('june');?></option>
+                            <option value="7"><?=translateText('july');?></option>
+                            <option value="8"><?=translateText('august');?></option>
+                            <option value="9"><?=translateText('september');?></option>
+                            <option value="10"><?=translateText('octuber');?></option>
+                            <option value="11"><?=translateText('november');?></option>
+                            <option value="12"><?=translateText('december');?></option> 
+                        </select>
+                    </div>
                 </div>
                 <div class="input-group col-sm-2">
                     <select class="custom-select" name="year" id="year" title="Year" autocomplete="year" >
@@ -107,8 +112,12 @@ $moduleName = 'Invoice';
                             </div>
                             <input type='currency' class="form-control" placeholder="Monto de la factura" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" onkeypress="$(this).mask('#,###,##0.00', {reverse: true});"/>
                         <div class="col-4">
-                            <!--<label for="invoice_number">Numero de la factura</label>-->
-                            <input type='text' class="form-control" placeholder="<?=translateText('invoice_number')?>" name="invoice_number" id="invoice_number"  title="Numero de la factura" autocomplete="invoice_number" />
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><?=translateText('invoice_number')?></span>
+                                </div>
+                                <input type='text' class="form-control" placeholder="<?=translateText('invoice_number')?>" name="invoice_number" id="invoice_number"  title="Numero de la factura" autocomplete="invoice_number" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,12 +130,15 @@ $moduleName = 'Invoice';
                             <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-po" name="<?=strtolower($moduleName)?>-file-po" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-po-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-po">
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-po-label" for="<?=strtolower($moduleName)?>-file-po"><?=translateText('choose')?> <?=translateText('po_file')?></label>
                         </div>
-                        <div class="col-4">
-                        <!--<label for="invoice_number">Numero de la ordem de cuempra</label>-->
-                        <input type='text' class="form-control" placeholder="<?=translateText('po_number')?>" name="po_number" id="po_number"  title="Numero de la ordem de cuempra" autocomplete="po_number" />
+                        <div class="col-5">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><?=translateText('po_number')?></span>
+                                </div>
+                                <input type='text' class="form-control" placeholder="<?=translateText('po_number')?>" name="po_number" id="po_number"  title="Numero de la ordem de cuempra" autocomplete="po_number" />
+                            </div>
+                        </div>
                     </div>
-                    </div>
-
                 </div>
                 <div class="inputs-form-container">
                     <div class="input-group mb-3">
