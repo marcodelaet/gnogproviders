@@ -47,8 +47,8 @@ if(1==2)
                                 <th class="column" scope="col"><?=translateText('amount');?></th>
                                 <th class="column dates" scope="col"><?=translateText('invoice_created_at');?><br/>(<?=translateText('yyyy/mm/dd');?>)</th>
                                 <th class="column" scope="col"><?=translateText('month');?>/<?=translateText('year');?></th>
-                                <th class="column" scope="col"><?=translateText('payed_amount');?></th>
-                                <th class="column dates" scope="col"><?=translateText('payed_at');?><br/>(<?=translateText('yyyy/mm/dd');?>)</th>
+                                <th class="column" scope="col"><?=translateText('paid_amount');?></th>
+                                <th class="column dates" scope="col"><?=translateText('paid_at');?><br/>(<?=translateText('yyyy/mm/dd');?>)</th>
                                 <th class="column" style="text-align:center;" scope="col"><?=translateText('status');?></th>
                                 <th class="column" scope="col" style="text-align:center;">&nbsp;</th>
                             </tr>
@@ -80,7 +80,7 @@ if(1==2)
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="history"></div>
+                    <div class="history-list" id="history"></div>
                 </div>
                 <div class="modal-footer">
                 </div>

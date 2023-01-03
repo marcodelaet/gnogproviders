@@ -96,7 +96,10 @@
     margin-bottom: 0.8rem;
 }
 
-
+.history-list {
+    font-size: 0.8rem;
+    overflow:auto;
+}
 #invoice-card {
     max-width: 30rem;
     min-width: 30rem;

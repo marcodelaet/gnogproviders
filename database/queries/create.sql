@@ -1007,7 +1007,8 @@ INSERT INTO translates
 VALUES
 (UUID(), 'offer_period', 'Offer period', 'Periodo de la campaña', 'Período da campanha', 'Y', NOW(), NOW()),
 (UUID(), 'yyyy/mm/dd', 'yyyy/mm/dd', 'aaaa/mm/dd', 'aaaa/mm/dd', 'Y', NOW(), NOW()),
-(UUID(), 'format', 'format', 'formato', 'formato', 'Y', NOW(), NOW());
+(UUID(), 'format', 'format', 'formato', 'formato', 'Y', NOW(), NOW()),
+(UUID(), 'history', 'history', 'histórico', 'histórico', 'Y', NOW(), NOW());
 
 
 

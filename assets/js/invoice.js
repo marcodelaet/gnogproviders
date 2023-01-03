@@ -333,6 +333,8 @@ function listStatusHistory(iid){
                             break;
                     }
                     history_html += '<p>'+obj[i].history_date+' - '+description+'</p>';
+                    if(i < (obj.length - 1))
+                    history_html += '<hr/>';
                 }
 
                 document.getElementById('history').innerHTML      = history_html;
