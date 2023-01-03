@@ -333,11 +333,8 @@ function listStatusHistory(iid){
                             break;
                     }
                     history_html += '<p>'+obj[i].history_date+' - '+description+'</p>';
-<<<<<<< HEAD
                     if(i < (obj.length - 1))
                     history_html += '<hr/>';
-=======
->>>>>>> c2a2a25 (added modal showing history log details. must be fixed later)
                 }
 
                 document.getElementById('history').innerHTML      = history_html;
@@ -477,11 +474,8 @@ function handleListOnLoad(search) {
                         
                         /* **********
                         ** success  - verde
-<<<<<<< HEAD
                         ** ++ invoice_approved
-=======
                         ** ++ approved
->>>>>>> c2a2a25 (added modal showing history log details. must be fixed later)
                         ** ++ paid
                         ** ++ 
                         ** danger   - vermelho
@@ -492,15 +486,12 @@ function handleListOnLoad(search) {
                         ** ++ waiting_approval
                         ***** */
                         color_badge = 'success';
-<<<<<<< HEAD
                         if( (obj.data[i].invoice_status == 'waiting_approval') || (obj.data[i].invoice_status == 'parcial_paid')){
                             color_badge = 'warning';
                         }
                         if(obj.data[i].invoice_status == 'approval_denied'){
                             color_badge = 'danger';
                         }
-=======
->>>>>>> c2a2a25 (added modal showing history log details. must be fixed later)
                         if(invoice_id != obj.data[i].invoice_id){
                             html += '<tr><td nowrap>'+obj.data[i].offer_name+' / '+obj.data[i].product_name+' - '+obj.data[i].salemodel_name+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].order_number+'</td>';
