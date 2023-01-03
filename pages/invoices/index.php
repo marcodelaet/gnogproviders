@@ -80,7 +80,11 @@ if(1==2)
                     </button>
                 </div>
                 <div class="modal-body">
+<<<<<<< HEAD
                     <div class="history-list" id="history"></div>
+=======
+                    <div id="history"></div>
+>>>>>>> c2a2a25 (added modal showing history log details. must be fixed later)
                 </div>
                 <div class="modal-footer">
                 </div>

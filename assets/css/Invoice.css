@@ -96,10 +96,14 @@
     margin-bottom: 0.8rem;
 }
 
+<<<<<<< HEAD
 .history-list {
     font-size: 0.8rem;
     overflow:auto;
 }
+=======
+
+>>>>>>> c2a2a25 (added modal showing history log details. must be fixed later)
 #invoice-card {
     max-width: 30rem;
     min-width: 30rem;
