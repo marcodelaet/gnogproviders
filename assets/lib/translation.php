@@ -70,7 +70,7 @@ function translateTextInLanguage($xcode,$language){
     return $response;
 }
 
-function setHistory($user_id,$module_name,$description_en,$description_es,$description_ptbr,$user_token,$form_token,$resultType){
+function setHistory($user_id,$module_name,$module_id,$description_en,$description_es,$description_ptbr,$user_token,$form_token,$resultType){
     global $DATABASE_HOST, $DATABASE_USER, $DATABASE_PASSWORD, $DATABASE_NAME;
 
     $DBHistory = new MySQLDB($DATABASE_HOST,$DATABASE_USER,$DATABASE_PASSWORD,$DATABASE_NAME);
@@ -79,7 +79,7 @@ function setHistory($user_id,$module_name,$description_en,$description_es,$descr
     $con = $DBHistory->connect();
 
     // Query
-    $sql = "INSERT INTO loghistory (id, user_id, module_name, description_en, description_es, description_ptbr, user_token, form_token, created_at, updated_at) VALUES (UUID(),'$user_id', '$module_name', '$description_en','$description_es','$description_ptbr', '$user_token', '$form_token', now(), now())"; 
+    $sql = "INSERT INTO loghistory (id, user_id, module_name, module_id, description_en, description_es, description_ptbr, user_token, form_token, created_at, updated_at) VALUES (UUID(),'$user_id', '$module_name', '$module_id', '$description_en','$description_es','$description_ptbr', '$user_token', '$form_token', now(), now())"; 
 
     $rs = $DBHistory->executeInstruction($sql);
     if($rs){

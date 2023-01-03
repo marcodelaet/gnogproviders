@@ -19,7 +19,7 @@ function translateText(code,toLanguage){
         locat += '/';
 
     const requestURL = window.location.protocol+'//'+locat+'assets/lib/translation.php?auth_api='+authApi+$querystring;
-    console.log(requestURL);
+    //console.log(requestURL);
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         //console.log(this.readyState + '/n' + this.status);

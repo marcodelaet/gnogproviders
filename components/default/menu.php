@@ -86,4 +86,4 @@ if(array_key_exists('tk',$_COOKIE) && (array_key_exists('uuid',$_COOKIE)) && (ar
 <script type="text/javascript">
   getUserInformation();
 </script>
-<?php   // echo base64_encode('./pages/maps/')?>
+<?php   // echo base64_encode('./pages/invoices/info.php')?>

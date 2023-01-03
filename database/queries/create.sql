@@ -813,6 +813,7 @@ CREATE TABLE loghistory (
 id VARCHAR(40) PRIMARY KEY NOT NULL,
 user_id VARCHAR(40) NOT NULL,
 module_name VARCHAR(20) NOT NULL,
+module_id VARCHAR(40) NOT NULL,
 description TEXT NOT NULL,
 user_token VARCHAR(250) NOT NULL,
 form_token VARCHAR(250),
