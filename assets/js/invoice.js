@@ -474,7 +474,7 @@ function handleListOnLoad(search) {
                         
                         /* **********
                         ** success  - verde
-                        ** ++ approved
+                        ** ++ invoice_approved
                         ** ++ paid
                         ** ++ 
                         ** danger   - vermelho
@@ -485,6 +485,12 @@ function handleListOnLoad(search) {
                         ** ++ waiting_approval
                         ***** */
                         color_badge = 'success';
+                        if( (obj.data[i].invoice_status == 'waiting_approval') || (obj.data[i].invoice_status == 'parcial_paid')){
+                            color_badge = 'warning';
+                        }
+                        if(obj.data[i].invoice_status == 'approval_denied'){
+                            color_badge = 'danger';
+                        }
                         if(invoice_id != obj.data[i].invoice_id){
                             html += '<tr><td nowrap>'+obj.data[i].offer_name+' / '+obj.data[i].product_name+' - '+obj.data[i].salemodel_name+'</td>';
                             html += '<td style="text-align:center" nowrap>'+obj.data[i].order_number+'</td>';
