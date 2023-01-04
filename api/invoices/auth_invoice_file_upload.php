@@ -438,9 +438,9 @@ if ($uploadOk > 0) {
        // $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
     // setting history log
-    $description_en     = "Provider sent files to invoice ($filesSent - $year_month)";
-    $description_es     = "Proveedor envió archivos de factura ($filesSent - $year_month)";
-    $description_ptbr   = "Provedor enviou arquivos de fatura ($filesSent - $year_month)";
+    $description_en     = "Provider sent files to invoice ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
+    $description_es     = "Proveedor envió archivos de factura ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
+    $description_ptbr   = "Provedor enviou arquivos de fatura ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
     setHistory($user_id,'invoices',$invoice_id,$description_en,$description_es,$description_ptbr,$user_token,$form_token,'text');
 } else {
     $errors++;
