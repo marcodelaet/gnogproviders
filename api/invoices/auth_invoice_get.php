@@ -16,19 +16,20 @@ if(array_key_exists('auth_api',$_REQUEST)){
     //if($localStorage == $_REQUEST['auth_api']){}
 
     // setting query
-    $columns        = "left(uuid,13) as uuid, uuid as uuid_full, product_id, product_name, salemodel_id, salemodel_name, product_price, currency, name, address, webpage_url, concat(contact_name,' ', contact_surname,' (', contact_email,')') as contact, contact_name, contact_surname, contact_email, contact_position, phone_international_code, phone_prefix, phone_number, concat('+',phone_international_code,phone_number) as phone, is_active";
-    $tableOrView    = "view_providers";
+    $columns        = "invoice_id, provider_id, provider_name, invoice_number, invoice_amount_int, invoice_amount, invoice_amount_paid_int, invoice_amount_paid, invoice_amount_currency, DATE_FORMAT(invoice_last_payment_date, '%Y/%m/%d') as invoice_last_payment_date, invoice_month, invoice_year, order_number, invoice_status, DATE_FORMAT(invoice_updated_at, '%Y/%m/%d') as invoice_updated_at, file_location, file_name, file_type, user_email, offer_name, product_name, salemodel_name";
+    $tableOrView    = "view_invoices_files";
+    $orderBy        = "order by invoice_id";
 
     // filters
     $uuid                   = '';
 
     $filters                = '';
-    if(array_key_exists('tid',$_REQUEST)){
-        if($_REQUEST['tid']!==''){
+    if(array_key_exists('iid',$_REQUEST)){
+        if($_REQUEST['iid']!==''){
             if($filters != '')
                 $filters .= " AND ";
-            $uuid         = $_REQUEST['tid'];
-            $filters        .= " uuid = '$uuid'";
+            $uuid         = $_REQUEST['iid'];
+            $filters        .= " invoice_id = '$uuid'";
         }
     }
    
@@ -39,7 +40,7 @@ if(array_key_exists('auth_api',$_REQUEST)){
 
 
     // Query creation
-    $sql = "SELECT $columns FROM $tableOrView $filters";
+    $sql = "SELECT $columns FROM $tableOrView $filters $orderBy";
     // LIST data
    // echo $sql;
     $rs = $DB->getData($sql);

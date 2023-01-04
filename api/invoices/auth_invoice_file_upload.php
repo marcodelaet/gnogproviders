@@ -139,7 +139,7 @@ $fileSizexml            = $_FILES["invoice-file-xml"]["size"];
 
 $message = '';
 
-
+$filesSent = '';
 
 if ($uploadOk > 0) {
     $invoice_status = "waiting_approval"; // every time the user upload a new file, the status resets to waiting_approval
@@ -200,6 +200,9 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
+    if($filesSent != '')
+        $filesSent .= ', ';
+    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -246,6 +249,9 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
+    if($filesSent != '')
+        $filesSent .= ', ';
+    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -291,6 +297,9 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
+    if($filesSent != '')
+        $filesSent .= ', ';
+    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -336,6 +345,9 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
+    if($filesSent != '')
+        $filesSent .= ', ';
+    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -381,6 +393,9 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
+    if($filesSent != '')
+        $filesSent .= ', ';
+    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -423,10 +438,10 @@ if ($uploadOk > 0) {
        // $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
     // setting history log
-    $description_en     = "Provider sent files to invoice ($year_month)";
-    $description_es     = "Proveedor envió archivos de factura ($year_month)";
-    $description_ptbr   = "Provedor enviou arquivos de fatura ($year_month)";
-    setHistory($user_id,'invoices',$description_en,$description_es,$description_ptbr,$user_token,$form_token,'text');
+    $description_en     = "Provider sent files to invoice ($filesSent - $year_month)";
+    $description_es     = "Proveedor envió archivos de factura ($filesSent - $year_month)";
+    $description_ptbr   = "Provedor enviou arquivos de fatura ($filesSent - $year_month)";
+    setHistory($user_id,'invoices',$invoice_id,$description_en,$description_es,$description_ptbr,$user_token,$form_token,'text');
 } else {
     $errors++;
     $message .= 'Error PANIC';
