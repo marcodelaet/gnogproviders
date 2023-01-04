@@ -179,11 +179,12 @@ $moduleName = 'Invoice';
 <script type="text/javascript"> 
     // getting previous month and year to show on form
     const xdate   = new Date();
-    const xmonth  = xdate.getMonth();
+    let xmonth  = xdate.getMonth();
+    let xyear  = xdate.getFullYear();
     if(xmonth == 0){
         xmonth = 12;
+        xyear--;
     }
-    const xyear  = xdate.getFullYear();
 
     document.getElementById('month').value = xmonth;
     document.getElementById('year').value = xyear;
