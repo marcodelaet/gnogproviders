@@ -517,15 +517,15 @@ function handleListOnLoad(search) {
                 } else {
                     if(search !== ''){
                         alert('la busqueda no hay retornado resultos para: ' + search);
-                        html = '<tr><td colspan="12" style="text-align:center;">0 resultos para <b>'+search+'</b></td></tr>';
+                        html = '<tr><td colspan="10" style="text-align:center;">0 resultos para <b>'+search+'</b></td></tr>';
                     } else {
-                        html = '<tr><td colspan="12" style="text-align:center;">0 resultos</td></tr>';
+                        html = '<tr><td colspan="10" style="text-align:center;">0 resultos</td></tr>';
                     }
                 } 
                 tableList.innerHTML = html;
             }
             else{
-                html = '<tr><td colspan="12"><div style="margin-left:45%; margin-right:45%;" class="spinner-border" style="text-align:center;" role="status">';
+                html = '<tr><td colspan="10"><div style="margin-left:45%; margin-right:45%;" class="spinner-border" style="text-align:center;" role="status">';
                 html += '<span class="sr-only">Loading...</span>';
                 html += '</div></td></tr>';
                 tableList.innerHTML = html;
