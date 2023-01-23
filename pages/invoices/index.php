@@ -38,7 +38,7 @@ if(1==2)
                 <div class="col">
                     <span class="section-information-line">Provider Private Area</span>
                     <table class="table table-hover table-sm">
-                        <caption>Offers / Files</caption>
+                        <caption><?=translateText('offers')?> / <?=translateText('invoices')?></caption>
                         <thead >
                             <tr>
                                 <th class="column" scope="col"><?=translateText('offer_campaign');?></th>
