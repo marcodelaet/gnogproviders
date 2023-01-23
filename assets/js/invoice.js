@@ -415,6 +415,7 @@ function handleListOnLoad(search) {
 
     addColumn   = '';
     groupby     = '';
+    orderby     = '';
 
     uuid        = localStorage.getItem('uuid');
     //groupby     = '&groupby=invoice_id';
@@ -436,7 +437,7 @@ function handleListOnLoad(search) {
 
     } else{
         tableList   = document.getElementById('listInvoices');
-        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+'&uid='+uuid+filters+groupby+addColumn;
+        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+'&uid='+uuid+filters+groupby+addColumn+orderby;
         console.log(requestURL);
         const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
