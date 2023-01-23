@@ -2,6 +2,10 @@
 function inputSelect($virtualTable,$title,$where,$order,$selected){
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
     $url = $_SERVER['HTTP_HOST'];
+    $today_day      = date("d");
+    $today_month    = date("m");
+    $today_year     = date("Y");
+    $today_full     = $today_year . $today_month . $today_day;
     if(substr($url,-1,1) != '/')
         $url .= '/';
     $fullUrl    = $protocol . $url;
@@ -23,7 +27,8 @@ function inputSelect($virtualTable,$title,$where,$order,$selected){
         if($where != ""){
             $where .= " AND ";
         }
-        $where      .= "((cjoin.invoice_status---'waiting_approval') OR (cjoin.invoice_status---'approval_denied') OR (cjoin.invoice_status IS NULL))";
+        $where    .= "((DATE_FORMAT(vp.start_date, '%Y%m%d') <= '$today_full' AND DATE_FORMAT(DATE_ADD(vp.stop_date, INTERVAL 3 MONTH), '%Y%m%d') >= '$today_full'))";
+
     }
     $tail   = "";
     if($join != "")
