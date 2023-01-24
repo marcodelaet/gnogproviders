@@ -1,4 +1,7 @@
 <?php
+/*ini_set('error_reporting', E_ALL);
+ini_set('display_errors', true);
+*/
 //REQUIRE GLOBAL conf
 require_once('../../database/.config');
 
@@ -20,7 +23,7 @@ if(array_key_exists('auth_api',$_REQUEST)){
     $group          = 'user';
 
     // setting query
-    $columns        = "vp.uuid, vp.UUID as uuid_full,vp.proposalproduct_id,vp.product_id,vp.offer_name as name,vp.product_name,vp.salemodel_id,vp.salemodel_name,vp.provider_id,vp.provider_name,vp.user_id,vp.username,vp.client_id,vp.client_name,vp.agency_id,vp.agency_name,vp.status_id,vp.status_name,vp.status_percent,vp.offer_name,vp.description,vp.start_date,vp.stop_date,sum(vp.price) as price_sum, vp.price,vp.currency,vp.quantity,vp.is_active";
+    $columns        = "DATE_ADD(vp.stop_date, INTERVAL 3 MONTH) as final_date, vp.uuid, vp.UUID as uuid_full,vp.proposalproduct_id,vp.product_id,vp.offer_name as name,vp.product_name,vp.salemodel_id,vp.salemodel_name,vp.provider_id,vp.provider_name,vp.user_id,vp.username,vp.client_id,vp.client_name,vp.agency_id,vp.agency_name,vp.status_id,vp.status_name,vp.status_percent,vp.offer_name,vp.description,vp.start_date,vp.stop_date,sum(vp.price) as price_sum, vp.price,vp.currency,vp.quantity,vp.is_active";
     $columnsjoin    = "";
     $tableOrView    = "view_proposals vp";
     $leftjoin       = "";
@@ -67,12 +70,15 @@ if(array_key_exists('auth_api',$_REQUEST)){
             if($filters != '')
                 $filters .= " AND ";
 
+            // ONLY EQUALS =
             $jocker         = explode("---",urldecode($_GET['where']));
             if(count($jocker)==2){
                 $filters    .= " vp.$jocker[0]='$jocker[1]'";
             } else {
                 $filters    .= str_replace('---','=',urldecode($_GET['where']));
             }            
+            // NOT EQUALS
+            $filters    = str_replace('*--','=',urldecode($_GET['where']));            
         }
     }
     
@@ -88,7 +94,7 @@ if(array_key_exists('auth_api',$_REQUEST)){
 
     // Response JSON 
     if($rs){
-        $response = json_encode(["response"=>"OK","data"=>$rs]);
+        $response = json_encode(["SQL"=>$sql,"response"=>"OK","data"=>$rs]);
     } else {
         $response = json_encode(["response"=>"ERROR"]);
 

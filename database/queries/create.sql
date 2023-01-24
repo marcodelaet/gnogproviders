@@ -1008,7 +1008,14 @@ VALUES
 (UUID(), 'offer_period', 'Offer period', 'Periodo de la campaña', 'Período da campanha', 'Y', NOW(), NOW()),
 (UUID(), 'yyyy/mm/dd', 'yyyy/mm/dd', 'aaaa/mm/dd', 'aaaa/mm/dd', 'Y', NOW(), NOW()),
 (UUID(), 'format', 'format', 'formato', 'formato', 'Y', NOW(), NOW()),
-(UUID(), 'history', 'history', 'histórico', 'histórico', 'Y', NOW(), NOW());
+(UUID(), 'history', 'history', 'histórico', 'histórico', 'Y', NOW(), NOW()),
+(UUID(), 'offers', 'offers', 'campañas', 'campanhas', 'Y', NOW(), NOW());
+
+INSERT INTO translates 
+(id, code_str, text_eng, text_esp, text_ptbr, is_active, created_at, updated_at)
+VALUES
+(UUID(), 'investment', 'investment', 'inversión', 'investimento', 'Y', NOW(), NOW());
+
 
 
 

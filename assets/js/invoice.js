@@ -56,6 +56,64 @@ function handleSubmit(form) {
         alert('Please, fill all required fields (*)');
 }
 
+function readInvoiceXML(frm,fieldName){
+
+    userLanguage = localStorage.getItem('ulang');
+    switch (userLanguage) {
+        case 'eng' :
+            xlocale     = 'en-US';
+            xcurrency   = 'USD';
+            break;
+        case 'ptbr' :
+            xlocale = 'pt-BR';
+            xcurrency   = 'BRL';
+            break;
+        case 'esp' :
+            xlocale = 'es-MX';
+            xcurrency   = 'MXN';
+            break;
+    }
+
+    var formatter = new Intl.NumberFormat(xlocale, {
+        minimumFractionDigits: 2
+    });
+
+
+    xmlobj                      = xmlReader(frm,fieldName);
+    if(typeof(xmlobj.attributes) != 'undefined'){
+        if(xmlobj.attributes.Moneda != 'XXX')
+        {
+            document.getElementById(fieldName+'-label').innerHTML = document.getElementById(fieldName).value.split(/[|\/\\]+/)[2];
+            frm.currency.value         = xmlobj.attributes.Moneda;
+            frm.invoice_value.value    = formatter.format(xmlobj.attributes.Total); 
+            frm.invoice_value.setAttribute('readonly',true); 
+            frm.currency.setAttribute('readonly',true); 
+            frm.invoice_number.value   = xmlobj.attributes.Serie + '-' + xmlobj.attributes.Folio; 
+            frm.invoice_number.setAttribute('readonly',true);    
+        } else {
+            document.getElementById(fieldName).value = '';
+            document.getElementById(fieldName+'-label').innerHTML = translateText('choose',userLanguage) +' '+translateText('xml_file',userLanguage);
+            frm.currency.value         = 'MXN';
+            frm.invoice_value.value    = ''; 
+            frm.invoice_value.removeAttribute('readonly'); 
+            frm.currency.removeAttribute('readonly'); 
+            frm.invoice_number.value   = ''; 
+            frm.invoice_number.removeAttribute('readonly');    
+            alert('not_a_valid_file');
+        }       
+    } else {
+        document.getElementById(fieldName).value = '';
+        document.getElementById(fieldName+'-label').innerHTML = translateText('choose',userLanguage) +' '+translateText('xml_file',userLanguage);
+        frm.currency.value         = 'MXN';
+        frm.invoice_value.value    = '';
+        frm.invoice_value.removeAttribute('readonly'); 
+        frm.currency.removeAttribute('readonly'); 
+        frm.invoice_number.value   = ''; 
+        frm.invoice_number.removeAttribute('readonly');    
+    alert('not_a_valid_file');
+    } 
+}
+
 function handleSubmitFiles(form){
     file1           = document.getElementById('invoice-file-invoice');
     file2           = document.getElementById('invoice-file-po');
@@ -415,6 +473,7 @@ function handleListOnLoad(search) {
 
     addColumn   = '';
     groupby     = '';
+    orderby     = '';
 
     uuid        = localStorage.getItem('uuid');
     //groupby     = '&groupby=invoice_id';
@@ -436,7 +495,7 @@ function handleListOnLoad(search) {
 
     } else{
         tableList   = document.getElementById('listInvoices');
-        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+'&uid='+uuid+filters+groupby+addColumn;
+        const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_view.php?auth_api='+authApi+'&uid='+uuid+filters+groupby+addColumn+orderby;
         console.log(requestURL);
         const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
