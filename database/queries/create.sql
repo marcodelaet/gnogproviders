@@ -1011,6 +1011,12 @@ VALUES
 (UUID(), 'history', 'history', 'histórico', 'histórico', 'Y', NOW(), NOW()),
 (UUID(), 'offers', 'offers', 'campañas', 'campanhas', 'Y', NOW(), NOW());
 
+INSERT INTO translates 
+(id, code_str, text_eng, text_esp, text_ptbr, is_active, created_at, updated_at)
+VALUES
+(UUID(), 'investment', 'investment', 'inversión', 'investimento', 'Y', NOW(), NOW());
+
+
 
 
 

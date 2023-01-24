@@ -81,7 +81,7 @@ $moduleName = 'Invoice';
                             <span class="input-group-text"><?=translateText('xml')?></span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-xml" name="<?=strtolower($moduleName)?>-file-xml" accept=".xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-xml-label').innerHTML = this.value.split(/[|\/\\]+/)[2]; xmlobj=xmlReader(form<?=strtolower($moduleName)?>,this.name); form<?=strtolower($moduleName)?>.currency.value=xmlobj.attributes.Moneda; form<?=strtolower($moduleName)?>.invoice_value.value=xmlobj.attributes.Total; form<?=strtolower($moduleName)?>.invoice_value.setAttribute('readonly',true); form<?=strtolower($moduleName)?>.currency.setAttribute('readonly',true); form<?=strtolower($moduleName)?>.invoice_number.value=xmlobj.attributes.Serie +'-'+xmlobj.attributes.Folio; form<?=strtolower($moduleName)?>.invoice_number.setAttribute('readonly',true);" aria-describedby="<?=strtolower($moduleName)?>-file-xml">
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-xml" name="<?=strtolower($moduleName)?>-file-xml" accept=".xml" onchange="readInvoiceXML(form<?=strtolower($moduleName)?>,this.name);" aria-describedby="<?=strtolower($moduleName)?>-file-xml">
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-xml-label" for="<?=strtolower($moduleName)?>-file-xml"><?=translateText('choose')?> <?=translateText('xml_file')?></label>
                         </div>
                     </div>
@@ -104,9 +104,9 @@ $moduleName = 'Invoice';
                         </select> &nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="currency-symbol">$</span>
-                                <span class="input-group-text">0.00</span>
+                                <span class="input-group-text"><?=ucfirst(translateText('investment'))?></span>
                             </div>
-                            <input type='currency' class="form-control" placeholder="Monto de la factura" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" onkeypress="$(this).mask('#,###,##0.00', {reverse: true});"/>
+                            <input type='currency' class="form-control" placeholder="<?=ucfirst(translateText('investment'))?> (num format: 0.00)" name="invoice_value" id="invoice_value"  title="Monto de la Factura" autocomplete="invoice_value" onkeypress="$(this).mask('#,###,##0.00', {reverse: true});"/>
                         <div class="col-4">
                             <div class="input-group">
                                 <div class="input-group-prepend">
