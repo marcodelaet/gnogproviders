@@ -1,9 +1,27 @@
 <?php
+/*
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', true);
+*/
+
 //REQUIRE GLOBAL conf
 require_once('../../database/.config');
 
 // REQUIRE conexion class
 require_once('../../database/connect.database.php');
+
+// Loading SendMail class
+require('../../assets/lib/SendMail.php');
+
+// Creating a new instance to SendMail class
+$SendGNogMail = new SendMail();
+
+$from_name     = 'CRM - Provider Platform';
+$from_email    = 'crm_no_contestar@gnogmedia.com';
+$to_name       = 'Lorena Saitta, Christian Nolasco, Fernando Nogueira, Marco De Laet, Estephanie Torres, Amanda Gómes Morales, Juan Jose';
+$to_email      = 'lorena@gnogmedia.com, finanzas@gnog.com.mx, fernando@gnog.com.mx, it@gnog.com.br, estephanie@gnog.com.mx, amanda@gnog.com.mx, juan@gnog.com.mx';
+$signFilePath  = 'platform_CRM.png';
+
 
 // initializing errors
 $errors = 0;
@@ -240,7 +258,7 @@ if ($uploadOk > 0) {
     else {
         $errors++;
         $message .= "\n- $uploading file not sent";
-        //$return = json_encode(["status"=>"ERROR","message" => $message]);
+        $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
 
     // UPLOADING P.O FILE
@@ -288,7 +306,7 @@ if ($uploadOk > 0) {
     else {
         $errors++;
         $message .= "\n- $uploading file not sent";
-        //$return = json_encode(["status"=>"ERROR","message" => $message]);
+        $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
 
     // UPLOADING REPORT FILE
@@ -336,7 +354,7 @@ if ($uploadOk > 0) {
     else {
         $errors++;
         $message .= "\n- $uploading file not sent";
-        //$return = json_encode(["status"=>"ERROR","message" => $message]);
+        $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
 
     // UPLOADING PRESENTATION FILE
@@ -384,7 +402,7 @@ if ($uploadOk > 0) {
     else {
         $errors++;
         $message .= "\n- $uploading file not sent";
-        //$return = json_encode(["status"=>"ERROR","message" => $message]);
+        $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
 
     // UPLOADING XML FILE
@@ -437,11 +455,33 @@ if ($uploadOk > 0) {
         $message .= "\n- $uploading file not sent";
        // $return = json_encode(["status"=>"ERROR","message" => $message]);
     }
+
+    $sql_get_user = "SELECT CONCAT(p.contact_name,' ',p.contact_surname) as full_name, p.name as provider_name, u.email from view_users u INNER JOIN view_providers p ON p.contact_email = u.email WHERE u.UUID = '$user_id'";
+    $rs_get_user  = $DB->getData($sql_get_user);
+    $user_fullname = $rs_get_user[0]['full_name'];
+    $user_email = $rs_get_user[0]['email'];
+    $user_providername = $rs_get_user[0]['provider_name'];
+
+    //changing FROM to logged user
+    $from_name     = "$user_fullname";
+    $from_email    = "$user_email";
+
+
     // setting history log
-    $description_en     = "Provider sent files to invoice ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
-    $description_es     = "Proveedor envió archivos de factura ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
-    $description_ptbr   = "Provedor enviou arquivos de fatura ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
+    $description_en     = "$user_providername ($user_fullname) sent files to invoice ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
+    $description_es     = "$user_providername ($user_fullname) envió archivos de factura ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
+    $description_ptbr   = "$user_providername ($user_fullname) enviou arquivos de fatura ($filesSent - ".substr($year_month,0,4)."/".substr($year_month,-2,2).")";
     setHistory($user_id,'invoices',$invoice_id,$description_en,$description_es,$description_ptbr,$user_token,$form_token,'text');
+
+    $subject       = 'Notificación - GNog Providers';
+    $messageHtml   = "<p>Esp: <p>$description_es </p></p>";
+    $messageHtml   .= "<p>PtBR: <p>$description_ptbr </p></p>";
+    $messageHtml   .= "<p>Eng: <p>$description_en </p></p>";
+    
+    $SendGNogMail->sendGNogMail($from_name,$from_email,$to_name,$to_email,$subject,$messageHtml,$signFilePath);
+   
+
+
 } else {
     $errors++;
     $message .= 'Error PANIC';

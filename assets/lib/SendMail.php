@@ -1,14 +1,15 @@
 <?php
-Class Sendmail{
+Class SendMail{
     private $sender_name;
     private $sender_email;
     private $to_name;
     private $to_email;
+    private $subject;
     private $body_text;
-    private $file_object;
     private $fileName;
     private $fileType;
     private $attached_file = '';
+    private $signature_file = '';
     private $boundary;
     private $headers;
     private $messageHTML;
@@ -29,12 +30,34 @@ Class Sendmail{
         $this->to_email = $string;
     }
 
-    public function setBodyText($string){
-        $this->body_text = $string;
+    public function setSubject($string){
+        $this->subject = $string;
+    }
+
+    public function setBodyText($text){
+        $this->body_text = "
+        <html>
+        <head>
+          <title>$this->subject</title>
+        </head>
+        <body>
+            <div class='messageText'>
+                <p>$text</p>
+            </div>
+            <div class='signature'>
+                <img src='$this->signature_file' />
+            </div>
+        </body>
+        </html>
+        ";
     }
 
     public function setBoundary($module){
         $this->boundary = "GNOG-".md5(date("dmYis"))."-".strtoupper($module);
+    }
+
+    public function setFileName($filePath){
+        $this->signature_file = "https://providers.gnogmedia.com/assets/img/$filePath";
     }
 
     public function setFile($filePath){
@@ -50,19 +73,20 @@ Class Sendmail{
     }
 
     public function setHeaders(){
-        $headersLocal = "MIME-Version: 1.0" . PHP_EOL;
-        $headersLocal .= "Content-Type: multipart/mixed; ";
-        $headersLocal .= "From: $this->sender_name <$this->sender_email>";
-        $headersLocal .= "boundary=" . $this->boundary . PHP_EOL;
-        $this->headers = $headersLocal . "$this->boundary" . PHP_EOL;
+        $headersLocal = 'MIME-Version: 1.0' . "\r\n";
+        $headersLocal .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+        //$headersLocal .= "Content-Type: multipart/mixed; " . "\r\n";
+        $headersLocal .= "From: $this->sender_name <$this->sender_email>" . "\r\n";
+        $headersLocal .= "Reply-To: $this->sender_name <$this->sender_email>" . "\r\n";
+        $headersLocal .= "boundary:" . $this->boundary . "\r\n";
+        $this->headers = $headersLocal;
     }
 
     public function setMessage($bodyHTML){
         $this->setBodyText($bodyHTML);
         $messageLocalHTML  = "--$this->boundary" . PHP_EOL;
-        $messageLocalHTML .= "Content-Type: text/html; charset='utf-8'" . PHP_EOL;
+        //$messageLocalHTML .= "Content-Type: text/html; charset='utf-8'" . PHP_EOL;
         $messageLocalHTML .= "$this->body_text"; // Add here message to send
-        $messageLocalHTML .= "<img src='$this->attached_file' />";
         $this->messageHTML = $messageLocalHTML . "--$this->boundary" . PHP_EOL;
     }
 
@@ -72,7 +96,7 @@ Class Sendmail{
         $messageLocalHTML .= "Content-Transfer-Encoding: base64" . PHP_EOL;
         $messageLocalHTML .= "Content-Disposition: attachment; filename=\"". $this->fileName . "\"" . PHP_EOL;
         $messageLocalHTML .= "$this->attached_file" . PHP_EOL;
-        $this->messageHTML = $messageLocalHTML . "--$this->boundary" . PHP_EOL;
+        $this->messageHTML = $messageLocalHTML  . "--$this->boundary" . PHP_EOL;
     }
 
     public function sendGNogMail($from_name,$from_email,$to_name,$to_email,$subject,$messageHtml,$signFilePath){
@@ -80,14 +104,23 @@ Class Sendmail{
         $this->setSenderEmail($from_email);
         $this->setToName($to_name);
         $this->setToEmail($to_email);
+        $this->setSubject($subject);
         $this->setBoundary('providers');
         $this->setHeaders();
-        $this->addAttachedFile($signFilePath);
-        $this->setBodyText($messageHtml);
+        $this->setFileName($signFilePath);
+        //$this->addAttachedFile($signFilePath);
+        $this->setMessage($messageHtml);
 
-        $to = $this->to_name . "<$this->to_email>";
-
-        mail($to, $subject, $this->messageHTML, $this->headers);
+        $aNames = explode(",",$this->to_name);
+        $aMails = explode(",",$this->to_email);
+        $to = '';
+        for($i=0;$i<count($aNames);$i++){
+            if($i>0)
+                $to .= ", ";
+            $to .= $aNames[$i] . "<".$aMails[$i].">";
+        }
+        
+        mail($to, $this->subject, $this->messageHTML, $this->headers);
     }
 
 }
