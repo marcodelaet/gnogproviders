@@ -16,10 +16,22 @@ require('../../assets/lib/SendMail.php');
 // Creating a new instance to SendMail class
 $SendGNogMail = new SendMail();
 
+// getting proposal office
+$sqlOffice = "SELECT office_name, office_icon_flag, offer_name from view_proposals WHERE proposalproduct_id='$proposalproduct_id'";
+$rsOffice       = $DB->getData($sqlOffice);
+$office_name    = $rsOffice['office_name'];
+$offer_name     = $rsOffice['offer_name'];
+
+
+$to_name       = 'Christian Nolasco';
+$to_email      = 'finanzas@gnog.com.mx';
+if($office_name == 'USA'){
+    $to_name       = 'Lorena Saitta';
+    $to_email      = 'lorena@gnogmedia.com';    
+}
+
 $from_name     = 'CRM - Provider Platform';
 $from_email    = 'crm_no_contestar@gnogmedia.com';
-$to_name       = 'Lorena Saitta, Christian Nolasco, Fernando Nogueira, Marco De Laet, Estephanie Torres, Amanda Gómes Morales, Juan Jose';
-$to_email      = 'lorena@gnogmedia.com, finanzas@gnog.com.mx, fernando@gnog.com.mx, it@gnog.com.br, estephanie@gnog.com.mx, amanda@gnog.com.mx, juan@gnog.com.mx';
 $signFilePath  = 'platform_CRM.png';
 
 
@@ -304,9 +316,11 @@ if ($uploadOk > 0) {
         }
     }
     else {
-        $errors++;
-        $message .= "\n- $uploading file not sent";
-        $return = json_encode(["status"=>"ERROR","message" => $message]);
+        if(substr($offer_name,0,6) == 'Disney'){
+            $errors++;
+            $message .= "\n- $uploading file not sent";
+            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        }
     }
 
     // UPLOADING REPORT FILE
@@ -352,9 +366,11 @@ if ($uploadOk > 0) {
         }
     }
     else {
-        $errors++;
-        $message .= "\n- $uploading file not sent";
-        $return = json_encode(["status"=>"ERROR","message" => $message]);
+        if(substr($offer_name,0,6) == 'Disney'){
+            $errors++;
+            $message .= "\n- $uploading file not sent";
+            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        }
     }
 
     // UPLOADING PRESENTATION FILE
@@ -400,9 +416,11 @@ if ($uploadOk > 0) {
         }
     }
     else {
-        $errors++;
-        $message .= "\n- $uploading file not sent";
-        $return = json_encode(["status"=>"ERROR","message" => $message]);
+        if(substr($offer_name,0,6) == 'Disney'){
+            $errors++;
+            $message .= "\n- $uploading file not sent";
+            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        }
     }
 
     // UPLOADING XML FILE

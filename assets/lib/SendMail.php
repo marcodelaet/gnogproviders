@@ -73,10 +73,13 @@ Class SendMail{
     }
 
     public function setHeaders(){
+        $cc = 'Fernando Nogueira <fernando@gnog.com.mx>, Marco De Laet <it@gnog.com.br>, Estephanie Torres <estephanie@gnog.com.mx>, Amanda Gómes Morales <amanda@gnog.com.mx>, Juan Jose <juan@gnog.com.mx>';        
+
         $headersLocal = 'MIME-Version: 1.0' . "\r\n";
         $headersLocal .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
         //$headersLocal .= "Content-Type: multipart/mixed; " . "\r\n";
         $headersLocal .= "From: $this->sender_name <$this->sender_email>" . "\r\n";
+        $headersLocal .= "Cc: $cc" . "\r\n";
         $headersLocal .= "Reply-To: $this->sender_name <$this->sender_email>" . "\r\n";
         $headersLocal .= "boundary:" . $this->boundary . "\r\n";
         $this->headers = $headersLocal;
