@@ -74,7 +74,7 @@ $moduleName = 'Invoice';
                             <span class="input-group-text"><?=translateText('invoice')?></span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-invoice" name="<?=strtolower($moduleName)?>-file-invoice" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-invoice-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-invoice">
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-invoice" name="<?=strtolower($moduleName)?>-file-invoice" accept=".pdf,.xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-invoice-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-invoice">
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-invoice-label" for="<?=strtolower($moduleName)?>-file-invoice"><?=translateText('choose')?> <?=translateText('invoice_file')?></label>
                         </div>&nbsp;&nbsp;&nbsp;&nbsp;
                         <div class="input-group-prepend">
@@ -123,7 +123,7 @@ $moduleName = 'Invoice';
                             <span class="input-group-text"><?=translateText('po')?></span>
                         </div>
                         <div class="col">                            
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-po" name="<?=strtolower($moduleName)?>-file-po" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-po-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-po">
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-po" name="<?=strtolower($moduleName)?>-file-po" accept=".pdf,.xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-po-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-po">
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-po-label" for="<?=strtolower($moduleName)?>-file-po"><?=translateText('choose')?> <?=translateText('po_file')?></label>
                         </div>
                         <div class="col-5">
@@ -142,7 +142,7 @@ $moduleName = 'Invoice';
                             <span class="input-group-text"><?=translateText('report')?></span>
                         </div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-report" name="<?=strtolower($moduleName)?>-file-report" accept=".xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-report-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-report">
+                            <input type="file" class="custom-file-input" id="<?=strtolower($moduleName)?>-file-report" name="<?=strtolower($moduleName)?>-file-report" accept=".pdf,.xls,.xlsx,.xml" onchange="document.getElementById('<?=strtolower($moduleName)?>-file-report-label').innerHTML = this.value.split(/[|\/\\]+/)[2];" aria-describedby="<?=strtolower($moduleName)?>-file-report">
                             <label class="custom-file-label" id="<?=strtolower($moduleName)?>-file-report-label" for="<?=strtolower($moduleName)?>-file-report"><?=translateText('choose')?> <?=translateText('report_file')?></label>
                         </div>
                     </div>

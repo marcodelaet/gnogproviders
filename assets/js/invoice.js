@@ -123,7 +123,7 @@ function handleSubmitFiles(form){
     product_id      = document.getElementById('product');
     btnSave         = form.btnSave;
     btnText         = btnSave.innerText;
-    if ((file1.value !== '') && (file2.value !== '') && (file3.value !== '') && (file4.value !== '')) {
+    //if ((file1.value !== '') && (file2.value !== '') && (file3.value !== '') && (file4.value !== '')) {
         if (product_id.value !== '0'){
             //form.submit();
             errors      = 0;
@@ -153,10 +153,11 @@ function handleSubmitFiles(form){
 
                         btnSave.innerText = btnText;
                         //alert('Status: '+obj.status);
-                        if(obj.status === "OK")
+                        if(obj.status === "OK"){
                             window.location.href = '?pr=Li9wYWdlcy9pbnZvaWNlcy9pbmRleC5waHA=';
-                        else
+                        } else {
                             alert(obj.message);
+                        }
                     }
                     else{
                         if(this.status == 500){
@@ -174,9 +175,9 @@ function handleSubmitFiles(form){
         } else {
             alert('Please, select the invoicing product from the list (*)');
         }
-    } else {
-        alert('Please, choose files to upload (*)');
-    }
+    //} else {
+    //    alert('Please, choose files to upload (*)');
+    //}
 }
 
 function handleEditSubmit(tid,form) {
