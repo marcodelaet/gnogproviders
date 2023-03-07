@@ -11,17 +11,10 @@ require_once('../../database/.config');
 require_once('../../database/connect.database.php');
 
 // Loading SendMail class
-require('../../assets/lib/SendMail.php');
+//require('../../assets/lib/SendMail.php');
 
 // Creating a new instance to SendMail class
-$SendGNogMail = new SendMail();
-
-// getting proposal office
-$sqlOffice = "SELECT office_name, office_icon_flag, offer_name from view_proposals WHERE proposalproduct_id='$proposalproduct_id'";
-$rsOffice       = $DB->getData($sqlOffice);
-$office_name    = $rsOffice['office_name'];
-$offer_name     = $rsOffice['offer_name'];
-
+//$SendGNogMail = new SendMail();
 
 $to_name       = 'Christian Nolasco';
 $to_email      = 'finanzas@gnog.com.mx';
@@ -65,10 +58,23 @@ if(array_key_exists('pid',$_POST)){
     $provider_id = $_POST['pid'];
 }
 
+$proposalproduct_id = $_REQUEST['product'];
 if(array_key_exists('product',$_POST)){
     $proposalproduct_id = $_POST['product'];
     $proposalproduct_dir= $proposalproduct_id . '/';
 }
+
+// getting proposal office
+$sqlOffice = "SELECT office_name, office_icon_flag, offer_name from view_proposals WHERE proposalproduct_id='$proposalproduct_id'";
+$rsOffice       = $DB->getData($sqlOffice);
+$office_name    = $rsOffice[0]['office_name'];
+$offer_name     = $rsOffice[0]['offer_name'];
+
+/*
+$errors++;
+$message .= $sqlOffice . ' / Office: ' . $office_name . " / OFFER: " . $offer_name;
+$return = json_encode(["status" => "error", "message" => "$message"]);
+*/
 
 $user_token = 'AUTO';
 if(array_key_exists('usrTk',$_POST)){
@@ -171,7 +177,13 @@ $message = '';
 
 $filesSent = '';
 
+
+    $message .= 'INICIO';
+    $return = json_encode(["status" => "error", "message" => "$message"]);
+
 if ($uploadOk > 0) {
+
+    
     $invoice_status = "waiting_approval"; // every time the user upload a new file, the status resets to waiting_approval
     
     // Checking if invoice is already on table (remember to change table name to view)
@@ -497,13 +509,11 @@ if ($uploadOk > 0) {
     $messageHtml   .= "<p>Eng: <p>$description_en </p></p>";
     
     $SendGNogMail->sendGNogMail($from_name,$from_email,$to_name,$to_email,$subject,$messageHtml,$signFilePath);
-   
-
 
 } else {
     $errors++;
     $message .= 'Error PANIC';
-    //$return = json_encode(["status" => "error", "message" => "$message"]);
+    $return = json_encode(["status" => "error", "message" => "$message"]);
 }
 
 //$errors = 1;
