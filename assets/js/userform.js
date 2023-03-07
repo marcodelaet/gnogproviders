@@ -60,23 +60,10 @@ function handleSubmit(form) {
 
 
 function handleEditSubmit(tid,form) {
-    if (form.email.value !== '' && form.mobile.value !== '') {
-        //form.submit();
+    if (form.password.value !== '' && form.retype_password.value !== '') {
         errors      = 0;
         authApi     = csrf_token;
         filters     = '&tid='+tid;
-        email       = form.email.value;
-        if(email !== ''){
-            filters     += '&email='+email;
-        }
-        mobile_ddi  = form.mobile_ddi.value;
-        if(mobile_ddi !== ''){
-            filters     += '&mobile_ddi='+mobile_ddi.replace(' ','');
-        }
-        mobile      = form.mobile.value;
-        if(mobile !== ''){
-            filters     += '&mobile='+mobile;
-        }
         password    = form.password.value;
         password2   = form.retype_password.value;
         locat       = window.location.hostname;
@@ -185,3 +172,40 @@ function handleOnLoad(cpid,form) {
     }
 }
 
+
+function handleEditOnLoad(cpid,form) {
+    errors      = 0;
+    authApi     = csrf_token;
+    authApi     = cpid; //sending cpid
+    locat       = window.location.hostname;
+
+    filters     = '&cpid='+cpid;
+  
+    if(locat.slice(-1) != '/')
+        locat += '/';
+
+    if(errors > 0){
+
+    } else{
+        const requestURL = window.location.protocol+'//'+locat+'api/'+module+'s/auth_'+module+'_get.php?auth_api='+authApi+filters;
+        const request = new XMLHttpRequest();
+        console.log(requestURL);
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                obj = JSON.parse(request.responseText);
+                document.getElementById('provider-name').innerText = obj.data[0].provider_name;
+                document.getElementById('contact-data').innerText = '('+obj.data[0].contact_name + ' ' + obj.data[0].contact_surname + ')';
+                form.username.placeholder   = obj.data[0].username;
+                form.username.value         = obj.data[0].username;
+
+            }
+            else{
+                //form.btnSave.innerHTML = "Searching...";
+            }
+        };
+        request.open('GET', requestURL);
+        //request.responseType = 'json';
+        request.send();
+    }
+}

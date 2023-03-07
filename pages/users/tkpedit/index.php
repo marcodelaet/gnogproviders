@@ -9,7 +9,7 @@
             User login updated succesfully!!
         </div>
         <div class="inputs-button-container">
-            <Button class="button" type="button" onClick="window.location='?pr=<?=base64_encode('./pages/users/index.php')?>'" >Back to the list of users</Button>
+            <Button class="button" type="button" onClick="window.location='?pr=<?=base64_encode('./pages/users/login')?>'" >Back to login</Button>
         </div>
     </div>    
 </div>

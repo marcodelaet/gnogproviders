@@ -40,6 +40,8 @@ require('./components/content.main.php');
 require_once('./components/footer.main.php');
 
 //echo '?pr='.base64_encode('./pages/users/form.php').'&cpid=';
+//echo '?pr='.base64_encode('./pages/users/formedit.php').'&cpid=';
+
 
 ?>
       </div>
