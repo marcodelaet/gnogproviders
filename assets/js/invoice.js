@@ -308,6 +308,11 @@ function handleViewOnLoad(iid) {
                 });
 
                 //alert(document.getElementById('provider-name').innerText);
+                invoice_file_html = '';
+                xml_file_html = '';
+                po_file_html = '';
+                report_file_html = '';
+                presentation_file_html = '';
                 for(i=0;i<obj.length;i++){
                     location_file = window.location.protocol+'//'+(obj[i].file_location).replace('../../',location_replace);
                     //alert(obj[i].file_name.substring(0,7));

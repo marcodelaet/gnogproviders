@@ -11,10 +11,10 @@ require_once('../../database/.config');
 require_once('../../database/connect.database.php');
 
 // Loading SendMail class
-//require('../../assets/lib/SendMail.php');
+require('../../assets/lib/SendMail.php');
 
 // Creating a new instance to SendMail class
-//$SendGNogMail = new SendMail();
+$SendGNogMail = new SendMail();
 
 $to_name       = 'Christian Nolasco';
 $to_email      = 'finanzas@gnog.com.mx';
@@ -51,7 +51,7 @@ if(array_key_exists('year',$_POST)){
 }
 
 if(array_key_exists('month',$_POST)){
-    $month = $_POST['month'];
+    $month = substr('00'.$_POST['month'],-2,2);
 }
 
 if(array_key_exists('pid',$_POST)){
@@ -178,12 +178,7 @@ $message = '';
 $filesSent = '';
 
 
-    $message .= 'INICIO';
-    $return = json_encode(["status" => "error", "message" => "$message"]);
-
 if ($uploadOk > 0) {
-
-    
     $invoice_status = "waiting_approval"; // every time the user upload a new file, the status resets to waiting_approval
     
     // Checking if invoice is already on table (remember to change table name to view)
@@ -242,9 +237,6 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
-    if($filesSent != '')
-        $filesSent .= ', ';
-    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -252,37 +244,43 @@ if ($uploadOk > 0) {
 
     $fileNumRows    = $DB->numRows($check_file_exist);
 
-    if(move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {            
-        $return = json_encode(["file" => $$file, "filetype" => $$imageFileType, "size" => $$fileSize]);
-        $description = 'Invoice file';
+    if($$fileSize > 0){
+        if(move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {            
+            if($filesSent != '')
+                $filesSent .= ', ';
+            $filesSent .= $uploading;
 
-        if($fileNumRows < 1){
-            // creating INSERT sql to files
-            $sql_insert_invoice = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
-            
-            // saving lines on database
-            $rsinvoice = $DB->executeInstruction($sql_insert_invoice);
+            $return = json_encode(["file" => $file, "filetype" => $$imageFileType, "size" => $$fileSize]);
+            $description = 'Invoice file';
 
-            if($rsinvoice){
-                $message .= "\n- $uploading file sent succesfully";
-                $return = json_encode(["status" => "OK","message" => $message]);
+            if($fileNumRows < 1){
+                // creating INSERT sql to files
+                $sql_insert_invoice = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                
+                // saving lines on database
+                $rsinvoice = $DB->executeInstruction($sql_insert_invoice);
+
+                if($rsinvoice){
+                    $message .= "\n- $uploading file sent succesfully";
+                    $return = json_encode(["status" => "OK","message" => $message]);
+                }
+            } else {
+                // getting file ID
+                $rs_file_data   = $DB->getData($check_file_exist);
+
+                $file_id        = $rs_file_data[0]['id'];
+
+                $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
+                
+                // updating file information on database
+                $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
             }
-        } else {
-            // getting file ID
-            $rs_file_data   = $DB->getData($check_file_exist);
-
-            $file_id        = $rs_file_data[0]['id'];
-
-            $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
-            
-            // updating file information on database
-            $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
         }
-    }
-    else {
-        $errors++;
-        $message .= "\n- $uploading file not sent";
-        $return = json_encode(["status"=>"ERROR","message" => $message]);
+        else {
+            $errors++;
+            $message .= "\n- $uploading file not sent";
+            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        }
     }
 
     // UPLOADING P.O FILE
@@ -291,9 +289,6 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
-    if($filesSent != '')
-        $filesSent .= ', ';
-    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -301,37 +296,43 @@ if ($uploadOk > 0) {
 
     $fileNumRows    = $DB->numRows($check_file_exist); 
 
-    if (move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
-        $return = json_encode(["file" => $$file, "filetype" => $$imageFileType, "size" => $$fileSize]);
-        $description = 'P.O. file';
-        if($fileNumRows < 1){
-            // creating INSERT sql to files
-            $sql_insert_po = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
-            
-            // saving lines on database
-            $rspo = $DB->executeInstruction($sql_insert_po);
+    if($$fileSize > 0){
+        if (move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
+            if($filesSent != '')
+                $filesSent .= ', ';
+            $filesSent .= $uploading;
 
-            if($rspo){
-                $message .= "\n- $uploading file sent succesfully";
-                $return = json_encode(["status" => "OK","message" => $message]);
+            $return = json_encode(["file" => $file, "filetype" => $$imageFileType, "size" => $$fileSize]);
+            $description = 'P.O. file';
+            if($fileNumRows < 1){
+                // creating INSERT sql to files
+                $sql_insert_po = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                
+                // saving lines on database
+                $rspo = $DB->executeInstruction($sql_insert_po);
+
+                if($rspo){
+                    $message .= "\n- $uploading file sent succesfully";
+                    $return = json_encode(["status" => "OK","message" => $message]);
+                }
+            } else {
+                // getting file ID
+                $rs_file_data   = $DB->getData($check_file_exist);
+
+                $file_id        = $rs_file_data[0]['id'];
+
+                $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
+                
+                // updating file information on database
+                $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
             }
-        } else {
-            // getting file ID
-            $rs_file_data   = $DB->getData($check_file_exist);
-
-            $file_id        = $rs_file_data[0]['id'];
-
-            $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
-            
-            // updating file information on database
-            $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
         }
-    }
-    else {
-        if(substr($offer_name,0,6) == 'Disney'){
-            $errors++;
-            $message .= "\n- $uploading file not sent";
-            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        else {
+            if(substr($offer_name,0,6) == 'Disney'){
+                $errors++;
+                $message .= "\n- $uploading file not sent";
+                $return = json_encode(["status"=>"ERROR","message" => $message]);
+            }
         }
     }
 
@@ -341,9 +342,6 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
-    if($filesSent != '')
-        $filesSent .= ', ';
-    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -351,37 +349,43 @@ if ($uploadOk > 0) {
 
     $fileNumRows    = $DB->numRows($check_file_exist);
     
-    if (move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
-        $return = json_encode(["file" => $$file, "filetype" => $$imageFileType, "size" => $$fileSize]);
-        $description = 'Report file';
-        if($fileNumRows < 1){
-            // creating INSERT sql to files
-            $sql_insert_report = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
-            
-            // saving lines on database
-            $rsreport = $DB->executeInstruction($sql_insert_report);
+    if( $$fileSize > 0 ){
+        if(move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
+            if($filesSent != '')
+                $filesSent .= ', ';
+            $filesSent .= $uploading;
 
-            if($rsreport){
-                $message .= "\n- $uploading file sent succesfully";
-                $return = json_encode(["status" => "OK","message" => $message]);
+            $return = json_encode(["file" => $file, "filetype" => $$imageFileType, "size" => $$fileSize]);
+            $description = 'Report file';
+            if($fileNumRows < 1){
+                // creating INSERT sql to files
+                $sql_insert_report = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                
+                // saving lines on database
+                $rsreport = $DB->executeInstruction($sql_insert_report);
+
+                if($rsreport){
+                    $message .= "\n- $uploading file sent succesfully";
+                    $return = json_encode(["status" => "OK","message" => $message]);
+                }
+            } else {
+                // getting file ID
+                $rs_file_data   = $DB->getData($check_file_exist);
+
+                $file_id        = $rs_file_data[0]['id'];
+
+                $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
+                
+                // updating file information on database
+                $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
             }
-        } else {
-            // getting file ID
-            $rs_file_data   = $DB->getData($check_file_exist);
-
-            $file_id        = $rs_file_data[0]['id'];
-
-            $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
-            
-            // updating file information on database
-            $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
         }
-    }
-    else {
-        if(substr($offer_name,0,6) == 'Disney'){
-            $errors++;
-            $message .= "\n- $uploading file not sent";
-            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        else {
+            if(substr($offer_name,0,6) == 'Disney'){
+                $errors++;
+                $message .= "\n- $uploading file not sent";
+                $return = json_encode(["status"=>"ERROR","message" => $message]);
+            }
         }
     }
 
@@ -391,9 +395,6 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
-    if($filesSent != '')
-        $filesSent .= ', ';
-    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -401,37 +402,43 @@ if ($uploadOk > 0) {
 
     $fileNumRows    = $DB->numRows($check_file_exist);
 
-    if (move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
-        $return = json_encode(["file" => $$file, "filetype" => $$imageFileType, "size" => $$fileSize]);
-        $description = 'Presentation file';
-        if($fileNumRows < 1){
-            // creating INSERT sql to files
-            $sql_insert_presentation = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
-            
-            // saving lines on database
-            $rspresentation = $DB->executeInstruction($sql_insert_presentation);
+    if($$fileSize > 0){
+        if(move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
+            if($filesSent != '')
+                $filesSent .= ', ';
+            $filesSent .= $uploading;
 
-            if($rspresentation){
-                $message .= "\n- $uploading file sent succesfully";
-                $return = json_encode(["status" => "OK","message" => $message]);
+            $return = json_encode(["file" => $file, "filetype" => $$imageFileType, "size" => $$fileSize]);
+            $description = 'Presentation file';
+            if($fileNumRows < 1){
+                // creating INSERT sql to files
+                $sql_insert_presentation = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                
+                // saving lines on database
+                $rspresentation = $DB->executeInstruction($sql_insert_presentation);
+
+                if($rspresentation){
+                    $message .= "\n- $uploading file sent succesfully";
+                    $return = json_encode(["status" => "OK","message" => $message]);
+                }
+            } else {
+                // getting file ID
+                $rs_file_data   = $DB->getData($check_file_exist);
+
+                $file_id        = $rs_file_data[0]['id'];
+
+                $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
+                
+                // updating file information on database
+                $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
             }
-        } else {
-            // getting file ID
-            $rs_file_data   = $DB->getData($check_file_exist);
-
-            $file_id        = $rs_file_data[0]['id'];
-
-            $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
-            
-            // updating file information on database
-            $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
         }
-    }
-    else {
-        if(substr($offer_name,0,6) == 'Disney'){
-            $errors++;
-            $message .= "\n- $uploading file not sent";
-            $return = json_encode(["status"=>"ERROR","message" => $message]);
+        else {
+            if(substr($offer_name,0,6) == 'Disney'){
+                $errors++;
+                $message .= "\n- $uploading file not sent";
+                $return = json_encode(["status"=>"ERROR","message" => $message]);
+            }
         }
     }
 
@@ -441,9 +448,6 @@ if ($uploadOk > 0) {
     $file_name      = $uploading.'-'.$year_month.'.'.$$imageFileType;
     $file           = $target_dir.$file_name;
     $fileSize       = 'fileSize'.$uploading;
-    if($filesSent != '')
-        $filesSent .= ', ';
-    $filesSent .= $uploading;
 
     // Checking if file is already on table
     $check_file_exist = "SELECT id FROM files WHERE file_location='$target_dir' AND file_name='$file_name' AND invoice_id='$invoice_id' AND user_id='$user_id' AND is_active='Y'";
@@ -451,41 +455,49 @@ if ($uploadOk > 0) {
     
     $fileNumRows    = $DB->numRows($check_file_exist);
     
-    if (move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
-        $return = json_encode(["file" => $$file, "filetype" => $$imageFileType, "size" => $$fileSize]);
-        $description = 'XML file';
-        if($fileNumRows < 1){
-            // creating INSERT sql to files
-            $sql_insert_xml = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
-            
-            // saving lines on database
-            $rsxml = $DB->executeInstruction($sql_insert_xml);
+    if($$fileSize > 0){
+        if (move_uploaded_file($_FILES["invoice-file-".$uploading]["tmp_name"], $file)) {
+            if($filesSent != '')
+                $filesSent .= ', ';
+            $filesSent .= $uploading;
 
-            if($rsxml){
-                $message .= "\n- $uploading file sent succesfully";
+            $return = json_encode(["file" => $file, "filetype" => $$imageFileType, "size" => $$fileSize]);
+            $description = 'XML file';
+            if($fileNumRows < 1){
+                // creating INSERT sql to files
+                $sql_insert_xml = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                
+                // saving lines on database
+                $rsxml = $DB->executeInstruction($sql_insert_xml);
+
+                if($rsxml){
+                    $message .= "\n- $uploading file sent succesfully";
+                    $return = json_encode(["status" => "OK","message" => $message]);
+                }
+            } else {
+                // getting file ID
+                $rs_file_data   = $DB->getData($check_file_exist);
+
+                $file_id        = $rs_file_data[0]['id'];
+
+                $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
+                
+                // updating file information on database
+                $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
                 $return = json_encode(["status" => "OK","message" => $message]);
             }
-        } else {
-            // getting file ID
-            $rs_file_data   = $DB->getData($check_file_exist);
+        }
+        else {
+            /**************************************
+             *  NOT REQUIRED
+             ************************************ */
+            $message .= "\n- $uploading file not sent";
+        // $return = json_encode(["status"=>"ERROR","message" => $message]);
 
-            $file_id        = $rs_file_data[0]['id'];
-
-            $sql_update_file = "UPDATE files SET updated_at=now() WHERE id='$file_id'";
-            
-            // updating file information on database
-            $rs_invoice_update = $DB->executeInstruction($update_invoice_data);
-            $return = json_encode(["status" => "OK","message" => $message]);
         }
     }
-    else {
-        /**************************************
-         *  NOT REQUIRED
-         ************************************ */
-        $message .= "\n- $uploading file not sent";
-       // $return = json_encode(["status"=>"ERROR","message" => $message]);
-    }
 
+    // SENDING MAIL - MAKING LOG
     $sql_get_user = "SELECT CONCAT(p.contact_name,' ',p.contact_surname) as full_name, p.name as provider_name, u.email from view_users u INNER JOIN view_providers p ON p.contact_email = u.email WHERE u.UUID = '$user_id'";
     $rs_get_user  = $DB->getData($sql_get_user);
     $user_fullname = $rs_get_user[0]['full_name'];
@@ -507,7 +519,6 @@ if ($uploadOk > 0) {
     $messageHtml   = "<p>Esp: <p>$description_es </p></p>";
     $messageHtml   .= "<p>PtBR: <p>$description_ptbr </p></p>";
     $messageHtml   .= "<p>Eng: <p>$description_en </p></p>";
-    
     $SendGNogMail->sendGNogMail($from_name,$from_email,$to_name,$to_email,$subject,$messageHtml,$signFilePath);
 
 } else {
@@ -515,6 +526,9 @@ if ($uploadOk > 0) {
     $message .= 'Error PANIC';
     $return = json_encode(["status" => "error", "message" => "$message"]);
 }
+
+// Everything OK?
+$return = json_encode(["status"=>"OK","message" => $message]);
 
 //$errors = 1;
 if($errors > 0){
