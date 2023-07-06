@@ -3,7 +3,7 @@
 <?php 
     if(array_key_exists('pr',$_GET)){ 
         if($_GET['pr'] != 'Li9wYWdlcy91c2Vycy9sb2dpbi9pbmRleC5waHA='){
-            if((($_GET['pr'] == 'Li9wYWdlcy91c2Vycy9mb3JtLnBocA==') || ($_GET['pr'] == 'Li9wYWdlcy91c2Vycy9mb3JtZWRpdC5waHA=')) && (array_key_exists('cpid',$_GET))){
+            if((($_GET['pr'] == 'Li9wYWdlcy91c2Vycy9sb2dpbi9mb3JtZWRpdC5waHA=') || ($_GET['pr'] == 'Li9wYWdlcy91c2Vycy9mb3JtLnBocA==') || ($_GET['pr'] == 'Li9wYWdlcy91c2Vycy9mb3JtZWRpdC5waHA=')) && ((array_key_exists('cpid',$_GET)) || (array_key_exists('tid',$_GET)) ) ){
                 // do nothing
             } else { ?>
                 authenticatedToken      = localStorage.getItem('tokenGNOG');

@@ -1,4 +1,49 @@
 <?php
+function getInvoicesFromUser($userId){
+    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
+    $url = $_SERVER['HTTP_HOST'];
+    $today_day      = date("d");
+    $today_month    = date("m");
+    $today_year     = date("Y");
+    $today_full     = $today_year . $today_month . $today_day;
+    if(substr($url,-1,1) != '/')
+        $url .= '/';
+    $fullUrl    = $protocol . $url;
+    $authApi    = 'fsdf9ejfineuf3nf93493nf';
+
+    $groupby    = "proposalproduct_id,product_id,salemodel_id";
+    $table      = "proposal";
+    $join       = "view_invoices_files cjoin ON cjoin.proposalproduct_id = vp.proposalproduct_id";
+    $cjoin      = "invoice_status";
+
+    $where    = " vp.provider_id*--'".$userId."' AND ((DATE_FORMAT(vp.start_date, '%Y%m%d') <= '$today_full' AND DATE_FORMAT(DATE_ADD(vp.stop_date, INTERVAL 3 MONTH), '%Y%m%d') >= '$today_full'))";
+
+    $tail   = "";
+    if($join != "")
+        $tail .= "&join=".urlencode($join);
+    if($cjoin != "")
+        $tail .= "&cjoin=".$cjoin;
+
+    $table_plural = $table . 's';
+    if(substr($table,-1,strlen($table) ) == 's')
+        $table_plural = $table . 'es';    
+
+    $fullUrl .= 'api/'.$table_plural.'/auth_'.$table.'_view.php?auth_api='.$authApi.'&where='.urlencode($where).'&groupby='.$groupby.'&allRows=1'.$tail;
+    //return $fullUrl;
+    $homepage = file_get_contents($fullUrl);
+    $obj = json_decode($homepage);
+        
+    if(is_array($obj))
+        $numberOfRows = count($obj);
+    else{
+        if($obj->response == 'OK')
+            $numberOfRows = count($obj->data);
+        else
+            $numberOfRows = 0;
+    }
+    return $numberOfRows;
+}
+
 function inputSelect($virtualTable,$title,$where,$order,$selected){
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/'))).'://';
     $url = $_SERVER['HTTP_HOST'];
@@ -28,7 +73,6 @@ function inputSelect($virtualTable,$title,$where,$order,$selected){
             $where .= " AND ";
         }
         $where    .= "((DATE_FORMAT(vp.start_date, '%Y%m%d') <= '$today_full' AND DATE_FORMAT(DATE_ADD(vp.stop_date, INTERVAL 3 MONTH), '%Y%m%d') >= '$today_full'))";
-
     }
     $tail   = "";
     if($join != "")

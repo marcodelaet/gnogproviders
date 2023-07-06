@@ -15,4 +15,6 @@ if(1==2)
   $dir2 = "../../../.";
 }
 
+$LOCALSERVER  = explode(".",$_SERVER['HTTP_HOST'])[2];
+$SUBDOMAIN    = explode(".",$_SERVER['HTTP_HOST'])[0];
 ?>

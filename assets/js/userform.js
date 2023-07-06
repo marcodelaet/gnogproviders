@@ -2,6 +2,7 @@ var csrf_token = $('meta[name="csrf-token"]').attr('content');
 module = 'user';
 //alert(csrf_token);
 
+
 function handleSubmit(form) {
     if (form.email.value !== '' && form.phone.value !== '' && form.password.value !== '' && form.retype_password.value !== '') {
         errors      = 0;
@@ -60,6 +61,53 @@ function handleSubmit(form) {
 
 
 function handleEditSubmit(tid,form) {
+    if (form.password.value !== '' && form.retype_password.value !== '') {
+        errors      = 0;
+        authApi     = csrf_token;
+        filters     = '&tid='+tid;
+        password    = form.password.value;
+        password2   = form.retype_password.value;
+        locat       = window.location.hostname;
+        if(locat.slice(-1) != '/')
+            locat += '/';
+
+        if(password != password2){
+            errors++;
+            alert('Please, retype password exactly like in the password field');
+        }
+        else{
+            if(password !== ''){
+                filters     += '&password='+password;
+            }
+        }
+
+        if(errors > 0){
+
+        } else{
+            const requestURL = window.location.protocol+'//'+locat+'api/'+module+'s/auth_'+module+'_edit.php?auth_api='+authApi+filters;
+            
+            const request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                   // Typical action to be performed when the document is ready:
+                   obj = JSON.parse(request.responseText);
+                   form.btnSave.innerHTML = "Save";
+                   window.location.href = '?pr=Li9wYWdlcy91c2Vycy90a3BlZGl0L2luZGV4LnBocA==';
+                   //alert('Status: '+obj.status);
+                }
+                else{
+                    form.btnSave.innerHTML = "Saving...";
+                }
+            };
+            request.open('GET', requestURL);
+            //request.responseType = 'json';
+            request.send();
+        }
+    } else
+        alert('Please, fill all required fields (*)');
+}
+
+function handleEditLoginSubmit(tid,form) {
     if (form.password.value !== '' && form.retype_password.value !== '') {
         errors      = 0;
         authApi     = csrf_token;
@@ -172,6 +220,50 @@ function handleOnLoad(cpid,form) {
     }
 }
 
+function changeView(id, objType){
+    if(objType == 'text'){
+        document.getElementById(id).type = 'password';
+        document.getElementById(id).placeholder = '*******';
+    } else {
+        document.getElementById(id).type = 'text';
+        document.getElementById(id).placeholder = '';
+    }
+}
+function handleEditLoginOnLoad(uid,form) {  
+
+    errors      = 0;
+    authApi     = csrf_token;
+    authApi     = uid; //sending cpid
+    locat       = window.location.hostname;
+
+    filters     = '&uuid='+uid;
+  
+    if(locat.slice(-1) != '/')
+        locat += '/';
+
+    if(errors > 0){
+
+    } else{
+        const requestURL = window.location.protocol+'//'+locat+'api/'+module+'s/auth_'+module+'_get.php?auth_api='+authApi+filters;
+        const request = new XMLHttpRequest();
+        console.log(requestURL);
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                obj = JSON.parse(request.responseText);
+                form.username.value = obj.data[0].username;
+                //form.username.value         = obj.data[0].contact_email;
+                form.email.value            = obj.data[0].contact_email;
+            }
+            else{
+                //form.btnSave.innerHTML = "Saving...";
+            }
+        };
+        request.open('GET', requestURL);
+        //request.responseType = 'json';
+        request.send();
+    }
+}
 
 function handleEditOnLoad(cpid,form) {
     errors      = 0;
