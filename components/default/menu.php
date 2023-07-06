@@ -24,6 +24,8 @@ if(array_key_exists('tk',$_COOKIE) && (array_key_exists('uuid',$_COOKIE)) && (ar
       $titleOption    = translateText('invoices');
       $destinationURL = base64_encode('./pages/invoices/index.php');
     }
+    if(getInvoicesFromUser($_COOKIE['pid']) > 0)
+    {
 ?>
       <li class="nav-item" id="nav-item-payment">
         <a class="nav-link" title="<?=$titleOption?>" href="?pr=<?=$destinationURL?>">
@@ -37,6 +39,9 @@ if(array_key_exists('tk',$_COOKIE) && (array_key_exists('uuid',$_COOKIE)) && (ar
           </div>
         </a>
       </li>
+<?php
+    }
+?>
       <li class="nav-item dropdown" id="nav-item-users">
         <a class="nav-link dropdown-toggle" title="Users Settings" href="?pr=<?=base64_encode('./pages/users/index.php')?>" id="navbarDropdownMenuLink user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="menu-option">

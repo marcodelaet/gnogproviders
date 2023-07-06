@@ -8,7 +8,7 @@ $moduleName = 'Invoice';
 <script src="<?=$dir?>./assets/js/<?=strtolower($moduleName)?>.js" type="text/javascript"></script>
 
 <div class='form-<?=strtolower($moduleName)?>-container'>
-    <div class="form-container">
+    <div class="form-container" id="form-container">
         <div class="form-header"><?=translateText('upload')?></div>
         <form name='form<?=strtolower($moduleName)?>' method="post" enctype="multipart/form-data" class="needs-validation" action="http://gnogcrm.local/api/providers/auth_provider_csv_upload.php" novalidate>
             <div class="form-row">

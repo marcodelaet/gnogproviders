@@ -66,3 +66,40 @@
     -webkit-text-stroke-color: #FFF;
     font-size: 1.5rem;
 }
+
+.general-container-fail{
+    display: grid;
+    background-color:#000000;
+    color:#CCFFFF;
+    text-align: center;
+    font-size: 1.5rem;
+    vertical-align: middle;
+    width: 100%;
+    height:100%;
+}
+
+.alert-fail{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.alert{
+    display: grid;
+    background-color:#000000;
+    color:#CCFFFF;
+    text-align: center;
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+.alert-title{
+    font-weight: bolder;
+    margin-top: 15%;
+    margin-bottom: 2rem;
+}
+
+.alert-message{
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 20%;
+}

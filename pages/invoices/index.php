@@ -20,6 +20,10 @@ if(1==2)
     <script src="<?=$dir?>./assets/js/goal.js" type="text/javascript"></script>
     
     <div class='<?=strtolower($moduleName)?>-container'>
+<?php
+if(getInvoicesFromUser($_COOKIE['pid']) > 0)
+{
+?>
         <div class="inputs-filter-container">
             <form name='filter' method="post" enctype="multipart/form-data">
                 <div class="form-row">
@@ -68,6 +72,18 @@ if(1==2)
                 </div>
             </div>        
         </div>
+<?php
+}else {
+?>
+    <div class="row alert">
+        <div class="col">
+            <spam class="alert-title">Aún no tiene campañas disponibles para su usuario.</spam><br/>
+            <spam class="alert-message">Si posible, por favor, pedimos para platicar con su gerente de cuentas en GNog <br/>para disponibilizar el acceso para las campañas que necesiten</spam>
+        </div>
+    </div>
+<?php
+} 
+?>
     </div>
 
     <div class="modal fade rounded" id="logModal" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
@@ -88,7 +104,10 @@ if(1==2)
         </div>
     </div>
 
-
+<?php
+if(getInvoicesFromUser($_COOKIE['pid']) > 0)
+{
+?>
     <script>
         handleListOnLoad();
 
@@ -102,7 +121,8 @@ if(1==2)
         // modal.find('.modal-body input').val(recipient)
     });
     </script>
-<?php 
+<?php
+} 
 #Matriz utilizada para gerar os graficos
 }
 ?>
