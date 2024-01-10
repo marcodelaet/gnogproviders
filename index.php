@@ -7,7 +7,7 @@ session_start();
 * MAINTENANCE MODE d1 != d2
 ******************************/
 $d1 = 1;
-$d2 = 2;
+$d2 = 1;
 /* ***************************/
 if(array_key_exists('ulang',$_COOKIE)){
    $lang = $_COOKIE['ulang'];

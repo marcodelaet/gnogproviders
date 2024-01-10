@@ -10,7 +10,7 @@ function handleLogin(form) {
        // alert(locat);
 
     const requestURL = window.location.protocol+'//'+locat+'api/login/authentication.php';
-    console.log(requestURL+'?'+filters);
+    //console.log(requestURL+'?'+filters);
     const request = new XMLHttpRequest();
     request.open('POST', requestURL,true);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -18,7 +18,7 @@ function handleLogin(form) {
         if (this.readyState == 4 && this.status == 200) {
             // Typical action to be performed when the document is ready:
             obj = JSON.parse(request.responseText);
-            if(obj.status === 'error'){
+            if(obj.response === 'ERROR'){
                 alert('username or password incorrect!');
                 form.password.value = '';
             }
