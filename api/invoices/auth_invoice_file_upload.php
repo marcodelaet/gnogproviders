@@ -255,7 +255,7 @@ if ($uploadOk > 0) {
 
             if($fileNumRows < 1){
                 // creating INSERT sql to files
-                $sql_insert_invoice = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                $sql_insert_invoice = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,module_type,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','invoices','Y',now(),now())";
                 
                 // saving lines on database
                 $rsinvoice = $DB->executeInstruction($sql_insert_invoice);
@@ -306,7 +306,7 @@ if ($uploadOk > 0) {
             $description = 'P.O. file';
             if($fileNumRows < 1){
                 // creating INSERT sql to files
-                $sql_insert_po = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                $sql_insert_po = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,module_type,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','invoices','Y',now(),now())";
                 
                 // saving lines on database
                 $rspo = $DB->executeInstruction($sql_insert_po);
@@ -359,7 +359,7 @@ if ($uploadOk > 0) {
             $description = 'Report file';
             if($fileNumRows < 1){
                 // creating INSERT sql to files
-                $sql_insert_report = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                $sql_insert_report = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,module_type,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','invoices','Y',now(),now())";
                 
                 // saving lines on database
                 $rsreport = $DB->executeInstruction($sql_insert_report);
@@ -412,7 +412,7 @@ if ($uploadOk > 0) {
             $description = 'Presentation file';
             if($fileNumRows < 1){
                 // creating INSERT sql to files
-                $sql_insert_presentation = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                $sql_insert_presentation = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,module_type,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','invoices','Y',now(),now())";
                 
                 // saving lines on database
                 $rspresentation = $DB->executeInstruction($sql_insert_presentation);
@@ -465,7 +465,7 @@ if ($uploadOk > 0) {
             $description = 'XML file';
             if($fileNumRows < 1){
                 // creating INSERT sql to files
-                $sql_insert_xml = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','Y',now(),now())";
+                $sql_insert_xml = "INSERT INTO files (id,file_location,file_name,file_type,invoice_id,user_id,description,module_type,is_active,created_at,updated_at) VALUES (UUID(),'$target_dir','".$file_name."','".$$imageFileType."','$invoice_id','$user_id','$description','invoices','Y',now(),now())";
                 
                 // saving lines on database
                 $rsxml = $DB->executeInstruction($sql_insert_xml);
