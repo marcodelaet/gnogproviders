@@ -291,7 +291,7 @@ function handleViewOnLoad(iid) {
 
     } else{
         const requestURL = window.location.protocol+'//'+locat+'api/invoices/auth_invoice_get.php?auth_api='+authApi+filters;
-       // console.log(requestURL);
+        //console.log(requestURL);
         const request   = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -342,7 +342,7 @@ function handleViewOnLoad(iid) {
                 document.getElementById('invoice-number').innerText         = obj[0].invoice_number;
                 document.getElementById('offer-name').innerText             = obj[0].offer_name + ' / ' + obj[0].product_name+ ' - ' + obj[0].salemodel_name;
                 document.getElementById('month-year').innerText             = obj[0].invoice_month + '/' + obj[0].invoice_year;
-                document.getElementById('invoice-value').innerText          = ' - ' + translateText('invoice_amount',localStorage.getItem('ulang')) +': '+formatter.format(obj[0].invoice_amount);
+                document.getElementById('invoice-value').innerText          = ' - ' + translateText('amount',localStorage.getItem('ulang')) +': '+formatter.format(obj[0].invoice_amount);
                 document.getElementById('paid-value').innerText             = ' - ' + translateText('paid',localStorage.getItem('ulang')) +': '+formatter.format((obj[0].invoice_amount_paid_int)/100);
 
                 document.getElementById('invoice-file').innerHTML           = invoice_file_html;

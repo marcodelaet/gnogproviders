@@ -18,12 +18,12 @@ if(array_key_exists('auth_api',$_REQUEST)){
     // setting query
     $columns        = "invoice_id, provider_id, provider_name, invoice_number, invoice_amount_int, invoice_amount, invoice_amount_paid_int, invoice_amount_paid, invoice_amount_currency, DATE_FORMAT(invoice_last_payment_date, '%Y/%m/%d') as invoice_last_payment_date, invoice_month, invoice_year, order_number, invoice_status, DATE_FORMAT(invoice_updated_at, '%Y/%m/%d') as invoice_updated_at, file_location, file_name, file_type, user_email, offer_name, product_name, salemodel_name";
     $tableOrView    = "view_invoices_files";
-    $orderBy        = "order by invoice_id";
+    $orderBy        = "ORDER BY invoice_id";
 
     // filters
     $uuid                   = '';
 
-    $filters                = '';
+    $filters                = " module_type = 'invoices'"; // invoices will be invoices forever
     if(array_key_exists('iid',$_REQUEST)){
         if($_REQUEST['iid']!==''){
             if($filters != '')
@@ -42,7 +42,7 @@ if(array_key_exists('auth_api',$_REQUEST)){
     // Query creation
     $sql = "SELECT $columns FROM $tableOrView $filters $orderBy";
     // LIST data
-   // echo $sql;
+    //echo $sql;
     $rs = $DB->getData($sql);
 
     
