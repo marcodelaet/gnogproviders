@@ -1,0 +1,1 @@
+<script src="<?=$dir?>./assets/js/logout.js" type="text/javascript"></script>

@@ -1,0 +1,16 @@
+.button {
+    width: 100%;
+    font-size: 1rem;
+    
+    font-weight: bold;
+    cursor: pointer;
+   
+    background-color: #2774AB;
+    height: 2.5rem;
+    color: #F3F3F3;
+    /*display:block;*/
+    box-shadow: 0.188rem 0.188rem 0.313rem #999; 
+    border-radius: 0.313rem;
+    padding: 0 0.625rem;
+    border: none;
+}
